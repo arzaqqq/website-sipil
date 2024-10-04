@@ -24,27 +24,27 @@ class UserResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-        ->schema([
-            Forms\Components\FileUpload::make('avatar_url')->avatar()->label('avatar')->required(),
-            Forms\Components\TextInput::make('name')
-            ->required(),
-            Forms\Components\TextInput::make('email')
-            ->required()
-            ->unique(User::class, 'email', ignoreRecord: true),
-            Forms\Components\TextInput::make('password')
-            ->revealable()               
-            ->password()
-            ->placeholder(fn ($record) => $record ? 'Password telah diatur. Isi untuk mengubah.' : null) // Tampilkan placeholder saat edit
-            ->dehydrateStateUsing(fn ($state) => filled($state) ? Hash::make($state) : null)
-            ->dehydrated(fn ($state) => filled($state))
-            ->required(fn (string $context): bool => $context === 'create'), // Wajib hanya saat create,   
-            Forms\Components\Select::make('role')
-            ->options([
-                'admin' => 'Admin',
-                'dosen' => 'Dosen',
-            ])    
-            ->required(),        
-        ]);
+            ->schema([
+                Forms\Components\FileUpload::make('avatar_url')->avatar()->label('avatar'),
+                Forms\Components\TextInput::make('name')
+                    ->required(),
+                Forms\Components\TextInput::make('email')
+                    ->required()
+                    ->unique(User::class, 'email', ignoreRecord: true),
+                Forms\Components\TextInput::make('password')
+                    ->revealable()
+                    ->password()
+                    ->placeholder(fn($record) => $record ? 'Password telah diatur. Isi untuk mengubah.' : null) // Tampilkan placeholder saat edit
+                    ->dehydrateStateUsing(fn($state) => filled($state) ? Hash::make($state) : null)
+                    ->dehydrated(fn($state) => filled($state))
+                    ->required(fn(string $context): bool => $context === 'create'), // Wajib hanya saat create,   
+                Forms\Components\Select::make('role')
+                    ->options([
+                        'admin' => 'Admin',
+                        'dosen' => 'Dosen',
+                    ])
+                    ->required(),
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -56,10 +56,10 @@ class UserResource extends Resource
                     ->circular(),
                 Tables\Columns\TextColumn::make('name')
                     ->label('Nama')
-                    ->searchable(),  
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('role')
                     ->label('Role')
-                    ->searchable(),  
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Data dibuat')
 
