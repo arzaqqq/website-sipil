@@ -20,12 +20,17 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $label = 'Admin & Dosen';
+    protected static ?string $navigationGroup = 'Data Akses';
+    protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\FileUpload::make('avatar_url')->avatar()->label('avatar'),
+                Forms\Components\FileUpload::make('avatar_url')
+                    ->avatar()
+                    ->label('avatar')
+                    ->directory('avatars'),
                 Forms\Components\TextInput::make('name')
                     ->required(),
                 Forms\Components\TextInput::make('email')
