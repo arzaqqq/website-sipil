@@ -21,8 +21,25 @@ class Matakuliah extends Model
         });
     }
 
-    public function user(): BelongsTo
+    // protected $fillable = ['user_id', 'nama_mk', 'file_rps'];
+
+    public function materis()
     {
-        return $this->belongsTo(user::class);
+        return $this->hasMany(Materi::class);
     }
+
+    public function kelas()
+    {
+        return $this->hasMany(Kelas::class);
+    }
+
+    public function soal()
+    {
+        return $this->hasMany(Soal::class);
+    } 
+
+    public function rubrik()
+    {
+        return $this->hasMany(Rubrik::class);
+    }  
 }

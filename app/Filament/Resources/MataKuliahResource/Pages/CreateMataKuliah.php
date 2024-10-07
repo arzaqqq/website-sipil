@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Filament\Resources\MataKuliahResource\Pages;
+namespace App\Filament\Resources\MatakuliahResource\Pages;
 
-use App\Filament\Resources\MataKuliahResource;
+use App\Filament\Resources\MatakuliahResource;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
-class CreateMataKuliah extends CreateRecord
+class CreateMatakuliah extends CreateRecord
 {
-    protected static string $resource = MataKuliahResource::class;
+    protected static string $resource = MatakuliahResource::class;
 
+    
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('index');
