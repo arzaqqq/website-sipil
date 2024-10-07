@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\RpsResource\Pages;
+namespace App\Filament\Resources\RubrikResource\Pages;
 
-use App\Filament\Resources\RpsResource;
+use App\Filament\Resources\RubrikResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
-class ListRps extends ListRecords
+class ListRubriks extends ListRecords
 {
-    protected static string $resource = RpsResource::class;
+    protected static string $resource = RubrikResource::class;
 
     protected function getHeaderActions(): array
     {

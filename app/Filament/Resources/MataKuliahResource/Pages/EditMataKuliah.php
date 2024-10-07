@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\MataKuliahResource\Pages;
+namespace App\Filament\Resources\MatakuliahResource\Pages;
 
-use App\Filament\Resources\MataKuliahResource;
+use App\Filament\Resources\MatakuliahResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
-class EditMataKuliah extends EditRecord
+class EditMatakuliah extends EditRecord
 {
-    protected static string $resource = MataKuliahResource::class;
+    protected static string $resource = MatakuliahResource::class;
 
     protected function getHeaderActions(): array
     {
@@ -17,6 +17,7 @@ class EditMataKuliah extends EditRecord
         ];
     }
 
+    
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('index');
