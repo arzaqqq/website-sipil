@@ -1,6 +1,10 @@
-<div class="navbar bg-base-100 sticky top-0 shadow-md z-50" data-aos="fade-down" data-aos-duration="1000" data-aos-delay="200">
+@php
+  $logo = get_section_data('Gambar logo')
+@endphp
+
+<div class="navbar bg-white sticky top-0 shadow-md z-50" data-aos="fade-down" data-aos-duration="1000" data-aos-delay="200">
     <div class="flex-1 ms-8">
-      <img src="{{url('img/logo.png')}}" alt="logo" class="w-1/5">
+      <img src="{{Storage::url($logo->foto)}}" alt="logo" class="w-1/5">
     </div>
     <div class="flex-none">
       <ul class="menu menu-horizontal px-1 font-bold">

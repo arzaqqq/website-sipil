@@ -35,6 +35,7 @@ class AdminPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Blue,
             ])
+            ->databaseNotifications()
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
@@ -48,6 +49,8 @@ class AdminPanelProvider extends PanelProvider
              ->navigationGroups([
                 'Data Akses',
                 'Perkuliahan',
+                'Penilaian',
+                'Hasil & Evaluasi'
              ])
             ->middleware([
                 EncryptCookies::class,
