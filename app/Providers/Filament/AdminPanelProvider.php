@@ -31,7 +31,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
-            -> brandName('WEBSITE TEKNIK SIPIL')
+            ->brandName('')
             ->colors([
                 'primary' => Color::Blue,
             ])
@@ -45,10 +45,10 @@ class AdminPanelProvider extends PanelProvider
                 Widgets\AccountWidget::class,
                 // Widgets\FilamentInfoWidget::class,
             ])
-             ->navigationGroups([
+            ->navigationGroups([
                 'Data Akses',
                 'Perkuliahan',
-             ])
+            ])
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
@@ -65,15 +65,15 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->plugins([
                 FilamentEditProfilePlugin::make()
-                ->setIcon('heroicon-o-user')
-                ->shouldShowAvatarForm(),
+                    ->setIcon('heroicon-o-user')
+                    ->shouldShowAvatarForm(),
             ])
             ->userMenuItems([
                 MenuItem::make()
                     ->label('Edit Profile')
-                    ->url(fn (): string => EditProfilePage::getUrl())
+                    ->url(fn(): string => EditProfilePage::getUrl())
                     ->icon('heroicon-m-user-circle')
-                   
-                ]);
+
+            ]);
     }
 }

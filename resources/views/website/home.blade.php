@@ -87,7 +87,7 @@ Beranda
   {{-- Akhir Profil Lulusan --}}
 
   {{-- Awal  Dokumen Lainnya --}}
-  <div class="container mx-auto mt-8">
+  {{-- <div class="container mx-auto mt-8">
     <div class="flex items-center justify-center">
       <div class="w-24 h-1 bg-green-600 ms-12 mb-4 mt-4 " data-aos="fade-right" data-aos-duration="1000" data-aos-delay="200"></div>
       <h1 class="text-3xl font-bold ms-4" data-aos="fade-down" data-aos-duration="1000" data-aos-delay="200">Dokumen Lainnya</h1>
@@ -170,6 +170,6 @@ Beranda
         </div>
       </div>
       
-  </div>
+  </div> --}}
   {{-- Akhir Dokumen Lainnya --}}
 @endsection

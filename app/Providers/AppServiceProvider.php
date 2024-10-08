@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use Illuminate\View\View;
 use Filament\Facades\Filament;
 use Illuminate\Support\ServiceProvider;
 use App\Filament\Resources\SoalResource;
+use Filament\Support\Facades\FilamentView;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,6 +23,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-       
+        FilamentView::registerRenderHook(
+            'panels::auth.login.form.after',
+            fn(): View => view('filament.login_extra')
+        );
     }
 }
