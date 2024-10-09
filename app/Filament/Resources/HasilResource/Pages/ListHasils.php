@@ -20,7 +20,7 @@ class ListHasils extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            // Actions\CreateAction::make(),
+            Actions\CreateAction::make(),
             
             Action::make('importHasil')
                 ->label('Import Hasil')
