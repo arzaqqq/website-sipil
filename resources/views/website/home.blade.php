@@ -1,3 +1,9 @@
+@php
+  $foto_bg = get_section_data('Gambar Background');
+  $foto_kelulusan = get_section_data('Gambar Profil Kelulusan')
+@endphp
+
+
 @extends('layout.template')
 
 @section('title')
@@ -9,7 +15,7 @@ Beranda
 {{-- Awal Carousel --}}
 <div
   class="hero lg:min-h-screen md:h-52 sm:h-40 w-full"
-  style="background-image: url(https://img.daisyui.com/images/stock/photo-1507358522600-9f71e620c44e.webp);">
+  style="background-image: url('{{ Storage::url($foto_bg->foto) }}');">
   <div class="hero-overlay bg-opacity-60"></div>
   <div class="hero-content text-neutral-content text-center">
     <div class="max-w-md">
@@ -43,7 +49,7 @@ Beranda
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
       <img
-      src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+      src="{{Storage::url($foto_kelulusan->foto)}}"
       alt="Shoes" class="ms-12 w-10/12 rounded-lg" data-aos="flip-left" data-aos-duration="1000" data-aos-delay="200"/>
       <div class="flex flex-col">
         <p class="font-normal leading-relaxed me-2 mb-4" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem, asperiores. Corrupti recusandae ex, quos dolorum magnam ab blanditiis porro praesentium.</p>

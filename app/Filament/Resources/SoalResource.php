@@ -47,6 +47,9 @@ class SoalResource extends Resource
                     ->label('Quiz Files')
                     ->preserveFilenames()
                     ->multiple()
+                    ->reorderable()
+                    ->openable()
+                    ->downloadable()
                     ->required(false),
 
                 Forms\Components\FileUpload::make('latihan')
@@ -77,62 +80,70 @@ class SoalResource extends Resource
                 Tables\Columns\TextColumn::make('kelas.nama_kelas')
                     ->label('Kelas'),
                     Tables\Columns\TextColumn::make('quiz')
-                    ->label('Quiz Files')
-                    ->formatStateUsing(function ($record) {
-                        // Check if the `quiz` field is an array of file paths
-                        return is_array($record->quiz) 
-                            ? collect($record->quiz)
-                                ->map(function ($file) {
-                                    // Generate the file URL
-                                    $fileUrl = Storage::url($file); // Generate the file URL
-                                    // Extract the file name
-                                    $fileName = basename($file); // Kembalikan hanya nama file
-                
-                                    // Return the file name as a clickable download link
-                                    return "<a href='{$fileUrl}' target='_blank'>{$fileName}</a>"; // Tambahkan tag <a>
-                                })
-                                ->implode('|') // Gunakan <br> untuk menampilkan file secara vertikal
-                            : ($record->quiz 
-                                ? "<a href='" . Storage::url($record->quiz) . "' target='_blank'>" . basename($record->quiz) . "</a>" // Tambahkan tag <a>
-                                : 'No File'); // Handle case for single file or no file
-                    })
-                    ->html() // Pastikan HTML dirender
-                    ->openUrlInNewTab(), // Buka link di tab baru
-                
+    ->label('Quiz Files')
+    ->formatStateUsing(function ($record) {
+        // Check if quiz is an array
+        if (is_array($record->quiz)) {
+            return collect($record->quiz)
+                ->map(function ($file, $index) {
+                    $fileUrl = Storage::url($file); // Generate the file URL
+                    return "<a href='{$fileUrl}' target='_blank' style='display: inline-block; margin-right: 5px;'>quiz " . ($index + 1) . "</a>"; // Add <a> tag with numbering
+                })
+                ->implode(' | '); // Use ' | ' to separate the links
+        }
+        
+        // Handle case for single file or no file
+        return $record->quiz 
+            ? "<a href='" . Storage::url($record->quiz) . "' target='_blank' style='display: inline-block;'>quiz 1</a>" 
+            : 'No File'; // Handle case for no file
+    })
+    ->html() // Ensure HTML is rendered
+    ->extraAttributes(['onclick' => 'event.stopPropagation();']), // Prevent event propagation
 
                 
-                    Tables\Columns\TextColumn::make('latihan')
-                    ->label('Latihan Files')
-                    ->formatStateUsing(function ($record) {
-                        // Check if the `latihan` field is an array of file paths
-                        return is_array($record->latihan)
-                            ? collect($record->latihan)
-                                ->map(function ($file) {
-                                    // Generate URL for each file
-                                    $fileUrl = asset('storage/' . $file); // Generate the file URL
-                                    $fileName = basename($file); // Extract the file name
                 
-                                    // Return the file name as a clickable link
-                                    return "<a href='{$fileUrl}' target='_blank'>{$fileName}</a>";
-                                })
-                                ->implode('|') // Ensure files are displayed on separate lines
-                            : ($record->latihan 
-                                ? "<a href='" . asset('storage/' . $record->latihan) . "' target='_blank'>" . basename($record->latihan) . "</a>" 
-                                : 'No File'); // Handle case for single file or no file
-                    })
-                    ->html() // Ensure the HTML is rendered
-                    // Add CSS for proper text wrapping
-                ,
                 
+    Tables\Columns\TextColumn::make('latihan')
+    ->label('Latihan Files')
+    ->formatStateUsing(function ($record) {
+        // Check if the `latihan` field is an array of file paths
+        if (is_array($record->latihan)) {
+            return collect($record->latihan)
+                ->map(function ($file, $index) {
+                    // Generate URL for each file
+                    $fileUrl = asset('storage/' . $file); // Generate the file URL
+                    $fileName = 'latihan ' . ($index + 1); // Create the name as "latihan 1", "latihan 2", etc.
+
+                    // Return the file name as a clickable link with inline-block styling
+                    return "<a href='{$fileUrl}' target='_blank' style='display: inline-block; margin-right: 5px;'>{$fileName}</a>";
+                })
+                ->implode(' | '); // Use ' | ' to separate the links
+        }
+
+        // Handle case for single file or no file
+        return $record->latihan 
+            ? "<a href='" . asset('storage/' . $record->latihan) . "' target='_blank' style='display: inline-block;'>latihan 1</a>" 
+            : 'No File'; // Handle case for no file
+    })
+    ->html(), // Ensure the HTML is rendered
+
                 
 
-                Tables\Columns\TextColumn::make('UTS')
-                    ->label('UTS File')
-                    ->formatStateUsing(fn($state) => $state ?: 'No File'),
+    Tables\Columns\TextColumn::make('UTS')
+    ->label('UTS File')
+    ->formatStateUsing(fn($state) => $state ? 'UTS' : 'No File')
+    ->html()
+    ->url(fn ($record) => $record->UTS ? asset('storage/' . $record->UTS) : null) // Mengatur URL untuk unduhan
+    ->openUrlInNewTab()// Membuka URL di tab baru
+    ->extraAttributes(['onclick' => 'event.stopPropagation();']),
 
-                Tables\Columns\TextColumn::make('UAS')
-                    ->label('UAS File')
-                    ->formatStateUsing(fn($state) => $state ?: 'No File'),
+Tables\Columns\TextColumn::make('UAS')
+    ->label('UAS File')
+    ->formatStateUsing(fn($state) => $state ? 'UAS' : 'No File')
+    ->html()
+    ->url(fn ($record) => $record->UAS ? asset('storage/' . $record->UAS) : null) // Mengatur URL untuk unduhan
+    ->openUrlInNewTab()// Membuka URL di tab baru
+    ->extraAttributes(['onclick' => 'event.stopPropagation();']),
             ])
             ->filters([
                 // Add filters if needed

@@ -53,33 +53,37 @@ class SampelJawabanResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('sampel_quiz')
-                    ->label('Sampel Quiz')
-                    ->formatStateUsing(fn($state) => $state ? basename($state) : 'No File')
-                    ->extraAttributes(['style' => 'text-align: left;'])
-                    ->url(fn($record) => $record->sampel_quiz ? asset('storage/' . $record->sampel_quiz) : null)
-                    ->html()
-                    ->openUrlInNewTab(),
-
-                TextColumn::make('sampel_latihan')
-                    ->label('Sampel Latihan')
-                    ->formatStateUsing(fn($state) => $state ? basename($state) : 'No File')
-                    ->url(fn($record) => $record->sampel_latihan ? asset('storage/' . $record->sampel_latihan) : null)
-                    ->html()
-                    ->openUrlInNewTab(),
-
-                TextColumn::make('sampel_UTS')
-                    ->label('Sampel UTS')
-                    ->formatStateUsing(fn($state) => $state ? basename($state) : 'No File')
-                    ->url(fn($record) => $record->sampel_UTS ? asset('storage/' . $record->sampel_UTS) : null)
-                    ->html()
-                    ->openUrlInNewTab(),
-
-                TextColumn::make('sampel_UAS')
-                    ->label('Sampel UAS')
-                    ->formatStateUsing(fn($state) => $state ? basename($state) : 'No File')
-                    ->url(fn($record) => $record->sampel_UAS ? asset('storage/' . $record->sampel_UAS) : null)
-                    ->html()
-                    ->openUrlInNewTab(),
+                ->label('Sampel Quiz')
+                ->formatStateUsing(fn($state) => $state ? 'Lihat Sampel Quiz' : 'No File')
+                ->extraAttributes(['style' => 'text-align: left;'])
+                ->url(fn($record) => $record->sampel_quiz ? asset('storage/' . $record->sampel_quiz) : null)
+                ->html()
+                ->openUrlInNewTab(),
+            
+            TextColumn::make('sampel_latihan')
+                ->label('Sampel Latihan')
+                ->formatStateUsing(fn($state) => $state ? 'Lihat Sampel Latiahan' : 'No File')
+                ->extraAttributes(['style' => 'text-align: left;'])
+                ->url(fn($record) => $record->sampel_latihan ? asset('storage/' . $record->sampel_latihan) : null)
+                ->html()
+                ->openUrlInNewTab(),
+            
+            TextColumn::make('sampel_UTS')
+                ->label('Sampel UTS')
+                ->formatStateUsing(fn($state) => $state ? 'Lihat Sampel UTS' : 'No File')
+                ->extraAttributes(['style' => 'text-align: left;'])
+                ->url(fn($record) => $record->sampel_UTS ? asset('storage/' . $record->sampel_UTS) : null)
+                ->html()
+                ->openUrlInNewTab(),
+            
+            TextColumn::make('sampel_UAS')
+                ->label('Sampel UAS')
+                ->formatStateUsing(fn($state) => $state ? 'Lihat Sampel UAS' : 'No File')
+                ->extraAttributes(['style' => 'text-align: left;'])
+                ->url(fn($record) => $record->sampel_UAS ? asset('storage/' . $record->sampel_UAS) : null)
+                ->html()
+                ->openUrlInNewTab(),
+            
             ])
             ->filters([
                 // Add filters if needed

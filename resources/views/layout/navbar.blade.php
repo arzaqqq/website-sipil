@@ -1,8 +1,12 @@
+@php
+  $logo = get_section_data('Gambar logo')
+@endphp
+
 <div class="navbar bg-base-100 sticky top-0 shadow-md z-50" data-aos="fade-down" data-aos-duration="1000" data-aos-delay="200">
   <div class="flex justify-between items-center ms-8 w-full">
       <!-- Logo -->
-      <div class="flex-1">
-          <img src="{{url('img/logo.png')}}" alt="logo" class="w-1/3">
+      <div class="flex-1 ms-8">
+        <img src="{{Storage::url($logo->foto)}}" alt="logo" class="w-1/5">
       </div>
 
       <!-- Hamburger Menu for Mobile -->
@@ -67,3 +71,4 @@
       menu.classList.toggle('hidden');
   });
 </script>
+
