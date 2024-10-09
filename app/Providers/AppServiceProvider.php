@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+
+
 use Illuminate\View\View;
 use Filament\Facades\Filament;
 use Illuminate\Support\ServiceProvider;
@@ -27,5 +29,6 @@ class AppServiceProvider extends ServiceProvider
             'panels::auth.login.form.after',
             fn(): View => view('filament.login_extra')
         );
+        require_once base_path('app/helpers.php');
     }
 }

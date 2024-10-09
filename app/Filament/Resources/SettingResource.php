@@ -17,33 +17,62 @@ class SettingResource extends Resource
 {
     protected static ?string $model = Setting::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-cog';
 
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-               Forms\Components\TextInput::make('slug')
-               
-            ]);
+            ->schema(function (Setting $record) {
+                // Pastikan data sudah tersedia sebelum menentukan form
+                if ($record->type === 'text') {
+                    return [
+                        Forms\Components\TextInput::make('label')->disabled(),
+                        Forms\Components\TextInput::make('value')->required(),
+                    ];
+                } elseif ($record->type === 'longtext') {
+                    return [
+                        Forms\Components\TextInput::make('label')->disabled()->columnSpanFull(),
+                        Forms\Components\RichEditor::make('value')->required(),
+                    ];
+                } else {
+                    // Default fallback jika type tidak sesuai
+                    return [
+                        Forms\Components\TextInput::make('label')->disabled(),
+                        Forms\Components\TextInput::make('value')->required(),
+                    ];
+                }
+            });
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('label')->sortable(),
+                Tables\Columns\TextColumn::make('value')->sortable()->limit(50),
+                // Tables\Columns\TextColumn::make('subjudul2')->sortable(),
+                // Tables\Columns\TextColumn::make('teks1')->sortable(),
+                // Tables\Columns\TextColumn::make('teks2')->sortable(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()->form(function (Setting $record) {
+                    switch ($record->type) {
+                        case 'text':
+                            return [Forms\Components\TextInput::make('value')->label($record->label)];
+                            break;
+                        case 'longtext':
+                            return [Forms\Components\RichEditor::make('value')->label($record->label)];
+                            break;
+                    }
+                }),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                // Tables\Actions\BulkActionGroup::make([
+                //     Tables\Actions\DeleteBulkAction::make(),
+                // ]),
             ]);
     }
 

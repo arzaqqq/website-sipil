@@ -1,6 +1,11 @@
 @php
   $foto_bg = get_section_data('Gambar Background');
-  $foto_kelulusan = get_section_data('Gambar Profil Kelulusan')
+  $foto_kelulusan = get_section_data('Gambar Profil Kelulusan');
+  $judul_web = get_setting_value('_site_name');
+  $subjudul1 = get_setting_value('_subjudul1');
+  $subjudul2 = get_setting_value('_subjudul2');
+  $narasi1 = get_setting_value('_narasi1');
+  $narasi2 = get_setting_value('_narasi2');
 @endphp
 
 
@@ -19,7 +24,7 @@ Beranda
   <div class="hero-overlay bg-opacity-60"></div>
   <div class="hero-content text-neutral-content text-center">
     <div class="max-w-md">
-      <h1 class="mb-5 text-5xl font-bold" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">Profil Lulusan</h1>
+      <h1 class="mb-5 text-5xl font-bold" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">{{$judul_web}}</h1>
       <a href="https://sipil.unimal.ac.id/" target="_blank" class="btn btn-success text-white hover:bg-white hover:text-black" data-aos="fade-down" data-aos-duration="2000" data-aos-delay="200">Cek Website</a>
     </div>
   </div>
@@ -30,14 +35,9 @@ Beranda
   <div class="container mx-auto mt-8">
     <div class="flex">
       <div class="w-24 h-1 bg-green-600 ms-12 mb-8 mt-4 " data-aos="fade-right" data-aos-duration="1000" data-aos-delay="200"></div>
-      <h1 class="text-3xl font-bold ms-4" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">Sejarah Program Studi Teknik Sipil</h1>
+      <h1 class="text-3xl font-bold ms-4" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">{{ $subjudul1 }}</h1>
     </div>
-    <p class="font-normal ms-12 mb-2 leading-relaxed" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">Program Studi Teknik Sipil Universitas Malikussaleh (Unimal) memiliki sejarah panjang yang beriringan dengan perkembangan pendidikan tinggi di Aceh. Sejarah ini dimulai sejak awal pendirian Universitas Malikussaleh pada akhir tahun 1980-an. Universitas ini didirikan dengan tujuan untuk memenuhi kebutuhan akan pendidikan tinggi di wilayah Aceh yang saat itu sangat terbatas, terutama dalam bidang-bidang teknis yang sangat diperlukan untuk pembangunan daerah. Fakultas Teknik menjadi salah satu fakultas awal yang dikembangkan, dan menjadi fondasi penting bagi pertumbuhan universitas.</p>
-    <p class="font-normal ms-12 mb-2 leading-relaxed" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="200">Pada tahun 1993, Program Studi Teknik Sipil resmi dibuka sebagai salah satu program studi di bawah Fakultas Teknik Unimal. Pembukaan program studi ini didasari oleh kebutuhan akan tenaga ahli yang dapat mendukung pembangunan infrastruktur di Aceh, serta menyediakan kesempatan bagi putra-putri daerah untuk mengenyam pendidikan tinggi di bidang teknik sipil tanpa harus pergi jauh dari daerah asal mereka. Seiring waktu, program ini terus berkembang, baik dari segi jumlah mahasiswa maupun kualitas akademiknya.</p>
-    <p class="font-normal leading-relaxed ms-12 mb-2" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">Selama bertahun-tahun, Prodi Teknik Sipil Unimal mengalami perkembangan signifikan, terutama setelah Aceh mulai mengalami kebangkitan pasca konflik dan bencana tsunami pada awal 2000-an. Pada masa ini, kebutuhan akan tenaga ahli di bidang rekonstruksi dan pembangunan infrastruktur semakin mendesak, mendorong Unimal untuk lebih serius dalam mengembangkan Prodi Teknik Sipil. Dengan dukungan pemerintah dan berbagai pihak lainnya, program ini berhasil memperluas cakupan kurikulumnya, meningkatkan kualitas pengajar, serta memperbaiki infrastruktur pendukung pendidikan, seperti laboratorium dan fasilitas penelitian.</p>
-    <p class="font-normal ms-12 mb-2" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="200">Masuk ke dekade 2010-an, Program Studi Teknik Sipil Unimal semakin memperkuat posisinya sebagai salah satu program unggulan universitas. Kerjasama dengan berbagai pihak, baik di tingkat nasional maupun internasional, mulai dibangun untuk mendukung peningkatan kualitas pendidikan dan penelitian. Kurikulum diperbarui agar sesuai dengan perkembangan teknologi dan standar global, memungkinkan lulusan dari program ini untuk bersaing di pasar kerja nasional dan internasional. Di sisi lain, jumlah lulusan yang sukses berkarir di bidang teknik sipil juga semakin meningkat, memberikan dampak nyata terhadap pembangunan di Aceh dan sekitarnya.</p>
-    <p class="font-normal leading-relaxed ms-12 mb-2" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">Seiring waktu, Prodi Teknik Sipil Unimal terus berkembang dengan memanfaatkan teknologi digital dan penelitian terapan di bidang teknik sipil. Ke depannya, program studi ini diharapkan akan semakin berperan dalam mendukung pembangunan infrastruktur di Indonesia, terutama di wilayah-wilayah yang membutuhkan tenaga ahli di bidang teknik sipil. Dengan visi menjadi pusat pendidikan teknik sipil yang unggul, Prodi Teknik Sipil Unimal berkomitmen untuk terus berinovasi dan berkontribusi terhadap pembangunan bangsa.</p>
-   
+    <div class="font-normal ms-12 mb-2 leading-relaxed" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">{!! ($narasi1) !!}</div> 
   </div>
   {{-- Akhir Narasi --}}
 
@@ -45,14 +45,14 @@ Beranda
   <div class="container mx-auto mt-8">
     <div class="flex flex-row-reverse">
       <div class="w-24 h-1 bg-green-600 me-12 mb-4 mt-4 " data-aos="fade-right" data-aos-duration="1000" data-aos-delay="200"></div>
-      <h1 class="text-3xl font-bold me-4" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">Profil Lulusan</h1>
+      <h1 class="text-3xl font-bold me-4" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">{{ $subjudul2 }}</h1>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
       <img
       src="{{Storage::url($foto_kelulusan->foto)}}"
       alt="Shoes" class="ms-12 w-10/12 rounded-lg" data-aos="flip-left" data-aos-duration="1000" data-aos-delay="200"/>
       <div class="flex flex-col">
-        <p class="font-normal leading-relaxed me-2 mb-4" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem, asperiores. Corrupti recusandae ex, quos dolorum magnam ab blanditiis porro praesentium.</p>
+        <div class="font-normal leading-relaxed me-2 mb-4" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">{!! $narasi2 !!}</div>
         <div class="overflow-x-auto md:mt-0">
           <table class="table table-responsive table-auto" data-aos="fade-down" data-aos-duration="1000" data-aos-delay="200">
             <!-- head -->

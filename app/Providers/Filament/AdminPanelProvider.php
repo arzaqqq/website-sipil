@@ -36,8 +36,8 @@ class AdminPanelProvider extends PanelProvider
                 'primary' => Color::Blue,
             ])
             ->databaseNotifications()
-            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
-            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
+            ->discoverResources(app_path('Filament/Resources'), 'App\\Filament\\Resources')
+            ->discoverPages(app_path('Filament/Pages'), 'App\\Filament\\Pages')
             ->pages([
                 Pages\Dashboard::class,
             ])
