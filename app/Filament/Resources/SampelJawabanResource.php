@@ -19,6 +19,7 @@ class SampelJawabanResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
 
     protected static ?string $navigationGroup = 'Penilaian';
+    
     protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
@@ -89,7 +90,6 @@ class SampelJawabanResource extends Resource
                 // Add filters if needed
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])

@@ -42,4 +42,9 @@ class Matakuliah extends Model
     {
         return $this->hasMany(Rubrik::class);
     }  
+
+    public function persen()
+    {
+        return $this->hasMany(Persen::class);
+    }  
 }

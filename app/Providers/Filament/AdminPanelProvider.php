@@ -47,6 +47,7 @@ class AdminPanelProvider extends PanelProvider
                 // Widgets\FilamentInfoWidget::class,
             ])
             ->navigationGroups([
+                'Setting Website',
                 'Data Akses',
                 'Perkuliahan',
                 'Penilaian',
