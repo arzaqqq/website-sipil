@@ -18,7 +18,6 @@ class Hasil extends Model
     }
 
     
-
     public function matakuliah()
     {
         return $this->belongsTo(Matakuliah::class, 'matakuliah_id');
@@ -30,9 +29,14 @@ class Hasil extends Model
         return $this->belongsTo(Kelas::class, 'kelas_id');
     }
 
-    public function average()
+    public function evalausi()
     {
-        return $this->belongsTo(Average::class);
+        return $this->belongsTo(Evaluasi::class);
+    }
+
+    public function avarage()
+    {
+        return $this->belongsTo(Avarage::class);
     }
     
 }

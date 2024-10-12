@@ -16,6 +16,7 @@ class AverageResource extends Resource
     protected static ?string $model = Avarage::class; // Gunakan model Avarage
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $label = 'Rata-rata nilai';
     protected static ?string $navigationGroup = 'Hasil & Evaluasi';
     protected static ?int $navigationSort = 4;
 

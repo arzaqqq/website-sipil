@@ -47,4 +47,8 @@ class Matakuliah extends Model
     {
         return $this->hasMany(Persen::class);
     }  
+    public function avarage()
+    {
+        return $this->hasMany(Avarage::class);
+    }  
 }

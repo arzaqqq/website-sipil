@@ -102,7 +102,7 @@ class HasilResource extends Resource
             ]),
             
     
-            Forms\Components\Grid::make(2)->schema([
+            Forms\Components\Card::make()->schema([
                 Forms\Components\TextInput::make('nama_mahasiswa')
                     ->label('Nama Mahasiswa')
                     ->columnSpan('full')

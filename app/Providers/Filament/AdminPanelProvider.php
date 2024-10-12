@@ -31,7 +31,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
-            ->brandName('')
+            ->brandName('Website Sipil')
             ->colors([
                 'primary' => Color::Blue,
             ])
@@ -51,7 +51,8 @@ class AdminPanelProvider extends PanelProvider
                 'Data Akses',
                 'Perkuliahan',
                 'Penilaian',
-                'Hasil & Evaluasi'
+                'Hasil & Evaluasi',
+                'Survey & Tindak lanjut'
             ])
             ->middleware([
                 EncryptCookies::class,
