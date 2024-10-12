@@ -6,6 +6,8 @@
   $subjudul2 = get_setting_value('_subjudul2');
   $narasi1 = get_setting_value('_narasi1');
   $narasi2 = get_setting_value('_narasi2');
+  $nama = get_header_value('_nama');
+  $deskripsi = get_header_value('_deskripsi');
 @endphp
 
 
@@ -59,17 +61,23 @@ Beranda
             <thead class="bg-gray-200">
               <tr class="text-black text-base">
                 <th>No</th>
-                <th>Profil Lulusan (PL) </th>
-                <th>Deskripsi Profil Lulusan</th>
+                <th>{{$nama}}</th>
+                <th>{{$deskripsi}}</th>
               </tr>
             </thead>
             <tbody>
+              @php
+              $no = 1;
+              @endphp
+              @foreach (get_profile()->take(5) as $profile)
               <tr class="hover:bg-green-200">
-                <th>1</th>
-                <td>Cy Ganderton</td>
-                <td>Quality Control Specialist</td>
+                <th>{{ $no++ }}</th>
+                <td>{{ $profile->nama_profil}}</td>
+                <td>{!! $profile->deskripsi_profil !!}</td>
               </tr>
-              <tr class="hover:bg-green-200">
+              @endforeach
+              
+              {{-- <tr class="hover:bg-green-200">
                 <th>2</th>
                 <td>Hart Hagerty</td>
                 <td>Desktop Support Technician</td>
@@ -83,7 +91,7 @@ Beranda
                 <th>4</th>
                 <td>Hart Hagerty</td>
                 <td>Desktop Support Technician</td>
-              </tr>
+              </tr> --}}
             </tbody>
           </table>
         </div>

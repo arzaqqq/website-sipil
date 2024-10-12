@@ -1,9 +1,16 @@
 <?php
 
-use App\Models\LinkOption;
+use App\Models\Kelas;
+use App\Models\Survey;
 use App\Models\setting;
+use App\Models\LinkOption;
+use App\Models\Matakuliah;
 use App\Models\SettingFoto;
-
+use App\Models\SurveyRating;
+use App\Models\HeaderLulusan;
+use App\Models\ProfilLulusan;
+use App\Models\SurveyQuestion;
+use Illuminate\Support\Facades\Validator;
 
 function get_section_data($key)
 {
@@ -32,6 +39,59 @@ function get_link_value($key)
         return 'empty';
     }
 }
+
+function get_profile()
+{
+    return ProfilLulusan::limit(5)->get();
+}
+
+function get_header_value($key)
+{
+    $data = HeaderLulusan::where('key', $key)->first();
+    if (isset($data)) {
+        return $data->value;
+    } else {
+        return 'empty';
+    }
+}
+
+function get_matakuliahs()
+{
+    return Matakuliah::all();
+}
+
+function get_kelas()
+{
+    return Kelas::all();
+}
+
+function store_survey($surveyData, $ratings)
+{
+    // Simpan data survei
+    $survey = Survey::create($surveyData);
+
+    // Simpan rating
+    foreach ($ratings as $questionId => $ratingData) {
+        SurveyRating::create([
+            'survey_id' => $survey->id,
+            'question_id' => $questionId,
+            'rating' => $ratingData['rating'],
+        ]);
+    }
+
+    return $survey; // Kembalikan objek survei yang baru dibuat
+}
+
+function get_questions($key)
+{
+    $data = SurveyQuestion::where('key', $key)->get();
+    if ($data->isNotEmpty()) {
+        return $data;
+    } else {
+        return collect();
+    }
+}
+
 
 
 // function get_patner()

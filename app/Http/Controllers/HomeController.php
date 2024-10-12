@@ -10,4 +10,9 @@ class HomeController extends Controller
     {
         return view('website.home');
     }
+
+    public function survei()
+    {
+        return view('website.survei');
+    }
 }
