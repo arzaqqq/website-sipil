@@ -27,7 +27,7 @@ class KelasResource extends Resource
 {
     protected static ?string $model = Kelas::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-building-library';
     protected static ?string $navigationGroup = 'Perkuliahan';
     protected static ?int $navigationSort = 2;
 
@@ -38,7 +38,6 @@ class KelasResource extends Resource
                 Forms\Components\Select::make('matakuliah_id')
                     ->relationship('matakuliah', 'nama_mk')
                     ->required()
-                   
                     ->columnSpanFull()
                     ->searchable(),
                 Forms\Components\TextInput::make('nama_kelas')
@@ -67,9 +66,17 @@ class KelasResource extends Resource
             Tables\Columns\TextColumn::make('status')
                 ->label('Status')
                 ->formatStateUsing(fn ($state) => $state ? 'Aktif' : 'Tidak Aktif'),
-            Tables\Columns\TextColumn::make('file_kelas')
+                Tables\Columns\TextColumn::make('file_kelas')
                 ->label('File Kontrak')
-                ->formatStateUsing(fn ($state) => $state ? basename($state) : 'No File'), 
+                ->formatStateUsing(fn ($state) => $state ? 'File Kontrak' : 'No File')
+                ->url(fn ($record) => $record->file_kelas ? asset("storage/{$record->file_kelas}") : null)
+                ->openUrlInNewTab() 
+                ->extraAttributes([
+                    'style' => 'cursor: pointer; ',
+                    'title' => 'Download File Kontrak',
+                    'class' => 'hover-underline-primary',
+                    
+                ]),
         ])
         ->filters([
             Tables\Filters\Filter::make('Semester Ganjil')

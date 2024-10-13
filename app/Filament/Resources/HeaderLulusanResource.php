@@ -17,7 +17,10 @@ class HeaderLulusanResource extends Resource
 {
     protected static ?string $model = HeaderLulusan::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
+
+    protected static ?string $navigationGroup = 'Setting Website';
+    protected static ?int $navigationSort = 4;
 
     public static function form(Form $form): Form
     {

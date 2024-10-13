@@ -21,6 +21,11 @@ class Kelas extends Model
         return $this->hasMany(Soal::class);
     }
 
+    public function persen()
+    {
+        return $this->hasMany(Persen::class);
+    }
+
     public function rublik()
     {
         return $this->belongsTo(Rubrik::class);
