@@ -49,6 +49,17 @@
                       </ul>
                   </details>
               </li>
+              <li>
+                <details class="group">
+                    <summary class="hover:bg-green-600 hover:text-white active:bg-green-700 focus:outline-none focus:ring focus:ring-green-300 cursor-pointer">Dokumen</summary>
+                    <ul class="bg-base-100 rounded-t-none p-2">
+                        <li><a href="#" class="hover:bg-green-600 hover:text-white">Kurikulum</a></li>
+                        <li><a href="#" class="hover:bg-green-600 hover:text-white">SK</a></li>
+                        <li><a href="#" class="hover:bg-green-600 hover:text-white">SPMI</a></li>
+                        <li><a href="#" class="hover:bg-green-600 hover:text-white">AMI</a></li>
+                    </ul>
+                </details>
+            </li>
               <li><a href="{{url('/survei')}}" class="hover:bg-green-600 hover:text-white active:bg-green-700 focus:outline-none focus:ring focus:ring-green-300">Survei</a></li>
               <li class="flex items-center">
                 <a href="{{url('/admin/login')}}" target="_blank" class="bg-green-600 text-white hover:bg-white hover:outline hover:outline-black hover:text-black flex items-center hover:outline-offset-[-2px]">

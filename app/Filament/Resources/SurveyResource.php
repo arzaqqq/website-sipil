@@ -56,19 +56,18 @@ class SurveyResource extends Resource
 
         return $table
             ->query(Survey::with('ratings.question')) // Eager load ratings dan questions
-            ->columns([
-                Tables\Columns\TextColumn::make('nama')->label('Nama'),
-                Tables\Columns\TextColumn::make('nim')->label('NIM'),
-                Tables\Columns\TextColumn::make('email')->label('Email'),
-                Tables\Columns\TextColumn::make('matakuliah.nama_mk')->label('Matakuliah'),
-                Tables\Columns\TextColumn::make('kelas.nama_kelas')->label('Kelas'),
-                Tables\Columns\TextColumn::make('nama_dosen')->label('Dosen'),
-            ])
             ->columns(array_merge(
-                $table->getColumns(),
+                [
+                    Tables\Columns\TextColumn::make('nama')->label('Nama'),
+                    Tables\Columns\TextColumn::make('nim')->label('NIM'),
+                    Tables\Columns\TextColumn::make('email')->label('Email'),
+                    Tables\Columns\TextColumn::make('matakuliah.nama_mk')->label('Matakuliah'),
+                    Tables\Columns\TextColumn::make('kelas.nama_kelas')->label('Kelas'),
+                    Tables\Columns\TextColumn::make('nama_dosen')->label('Dosen'),
+                ],
                 // Tambahkan kolom untuk setiap pertanyaan
                 $questions->map(function ($question) {
-                    return Tables\Columns\TextColumn::make('ratings')
+                    return Tables\Columns\TextColumn::make('ratings.' . $question->id) // Menggunakan key dari ratings
                         ->label($question->label)
                         ->getStateUsing(function ($record) use ($question) {
                             // Ambil rating berdasarkan survey dan question

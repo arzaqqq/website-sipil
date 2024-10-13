@@ -60,9 +60,11 @@ function get_matakuliahs()
     return Matakuliah::all();
 }
 
-function get_kelas()
-{
-    return Kelas::all();
+if (!function_exists('get_kelas_by_matakuliah')) {
+    function get_kelas_by_matakuliah($matakuliahId)
+    {
+        return Kelas::where('matakuliah_id', $matakuliahId)->get();
+    }
 }
 
 function store_survey($surveyData, $ratings)
