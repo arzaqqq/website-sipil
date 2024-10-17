@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('avarages', function (Blueprint $table) {
+        Schema::create('averages', function (Blueprint $table) {
             $table->id();
             $table->foreignId('matakuliah_id')->constrained('matakuliahs')->onDelete('cascade');
-            $table->foreignId('hasil_id')->constrained('hasils')->onDelete('cascade');
-            $table->float('average_absen');
-            $table->float('average_tugas');
-            $table->float('average_uts');
-            $table->float('average_uas');
-            $table->float('average_total_nilai');
+            $table->integer('jumlah_mahasiswa')->nullable(); // Menghitung jumlah mahasiswa dalam matakuliah tertentu
+            $table->float('average_absen')->nullable();
+            $table->float('average_tugas')->nullable();
+            $table->float('average_uts')->nullable();
+            $table->float('average_uas')->nullable();
+            $table->float('average_total_nilai')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('avarages');
+        Schema::dropIfExists('averages');
     }
 };

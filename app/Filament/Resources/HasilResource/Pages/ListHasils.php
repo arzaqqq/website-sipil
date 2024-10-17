@@ -10,6 +10,7 @@ use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use App\Filament\Resources\HasilResource;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Contracts\View\View;
 
 class ListHasils extends ListRecords
 {
@@ -23,4 +24,12 @@ class ListHasils extends ListRecords
            
         ];
     }
+
+    // public function getHeader(): ?View
+    // {
+    //     $matakuliahs = Matakuliah::all();
+    //     $kelas = Kelas::all();
+        
+    //     return view('filament/resources/hasilcostum',compact('matakuliahs', 'kelas'));
+    // }
 }

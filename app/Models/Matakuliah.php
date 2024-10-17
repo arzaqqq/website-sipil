@@ -38,6 +38,11 @@ class Matakuliah extends Model
         return $this->hasMany(Soal::class);
     } 
 
+    public function filehasil()
+    {
+        return $this->hasMany(FileHasil::class);
+    } 
+
     public function rubrik()
     {
         return $this->hasMany(Rubrik::class);
@@ -49,6 +54,6 @@ class Matakuliah extends Model
     }  
     public function avarage()
     {
-        return $this->hasMany(Avarage::class);
+        return $this->hasMany(Average::class);
     }  
 }

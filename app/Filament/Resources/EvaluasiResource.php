@@ -3,10 +3,11 @@ namespace App\Filament\Resources;
 
 use Filament\Forms;
 use Filament\Tables;
+use App\Models\Avarage;
+use App\Models\Average;
 use App\Models\Evaluasi;
 use Filament\Forms\Form;
 use App\Models\Matakuliah;
-use App\Models\Avarage;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use App\Filament\Resources\EvaluasiResource\Pages;
@@ -64,7 +65,7 @@ class EvaluasiResource extends Resource
                         $soal = $get('soal');
                         
                         if ($matakuliahId && $soal) {
-                            $average = Avarage::where('matakuliah_id', $matakuliahId)->first();
+                            $average = Average::where('matakuliah_id', $matakuliahId)->first();
                             if ($average) {
                                 $averageValue = match ($soal) {
                                     'Tugas' => $average->average_tugas,

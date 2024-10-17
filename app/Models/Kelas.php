@@ -30,4 +30,9 @@ class Kelas extends Model
     {
         return $this->belongsTo(Rubrik::class);
     }
+
+    public function filehasil()
+    {
+        return $this->hasMany(FileHasil::class);
+    } 
 }

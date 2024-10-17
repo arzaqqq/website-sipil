@@ -16,13 +16,10 @@ class ListPersens extends ListRecords
 {
     protected static string $resource = PersenResource::class;
 
-    
-
     protected function getHeaderActions(): array
     {
         return [
-            // Actions\CreateAction::make(),
-
+            // Membuat aksi untuk menambah persentase
             Action::make('Tambah Persentase')
                 ->label('Tambah Persentase')
                 ->form([
@@ -63,7 +60,7 @@ class ListPersens extends ListRecords
                         ->required()
                         ->reactive()
                         ->afterStateUpdated(function ($set, $get) {
-                            $this->setTotalPersen($set, $get);
+                            $this->calculateTotalPersen($set, $get);
                         }),
 
                     Forms\Components\TextInput::make('persen_latihan')
@@ -74,7 +71,7 @@ class ListPersens extends ListRecords
                         ->required()
                         ->reactive()
                         ->afterStateUpdated(function ($set, $get) {
-                            $this->setTotalPersen($set, $get);
+                            $this->calculateTotalPersen($set, $get);
                         }),
 
                     Forms\Components\TextInput::make('persen_UTS')
@@ -85,7 +82,7 @@ class ListPersens extends ListRecords
                         ->required()
                         ->reactive()
                         ->afterStateUpdated(function ($set, $get) {
-                            $this->setTotalPersen($set, $get);
+                            $this->calculateTotalPersen($set, $get);
                         }),
 
                     Forms\Components\TextInput::make('persen_UAS')
@@ -96,7 +93,7 @@ class ListPersens extends ListRecords
                         ->required()
                         ->reactive()
                         ->afterStateUpdated(function ($set, $get) {
-                            $this->setTotalPersen($set, $get);
+                            $this->calculateTotalPersen($set, $get);
                         }),
 
                     Forms\Components\TextInput::make('total_persen')
@@ -153,11 +150,17 @@ class ListPersens extends ListRecords
         ];
     }
 
-    
-
-    protected function setTotalPersen($set, $get)
+    protected function calculateTotalPersen($set, $get)
     {
-        $totalPersen = intval($get('persen_absen')) + intval($get('persen_latihan')) + intval($get('persen_UTS')) + intval($get('persen_UAS'));
-        $set('total_persen', $totalPersen);
+        $persenAbsen = $get('persen_absen');
+        $persenLatihan = $get('persen_latihan');
+        $persenUTS = $get('persen_UTS');
+        $persenUAS = $get('persen_UAS');
+
+        // Periksa apakah semua input sudah terisi sebelum menghitung total
+        if ($persenAbsen !== null && $persenLatihan !== null && $persenUTS !== null && $persenUAS !== null) {
+            $totalPersen = intval($persenAbsen) + intval($persenLatihan) + intval($persenUTS) + intval($persenUAS);
+            $set('total_persen', $totalPersen);
+        }
     }
 }

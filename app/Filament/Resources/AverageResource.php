@@ -4,25 +4,34 @@ namespace App\Filament\Resources;
 
 use Filament\Forms;
 use Filament\Tables;
+use App\Models\Hasil;
+use App\Models\Average;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Tables\Columns\TextColumn;
 use App\Filament\Resources\AverageResource\Pages;
-use App\Models\Avarage; // Gunakan model Avarage
 
 class AverageResource extends Resource
 {
-    protected static ?string $model = Avarage::class; // Gunakan model Avarage
+    protected static ?string $model = Average::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    protected static ?string $label = 'Rata-rata nilai';
+    protected static ?string $label = 'Rata-rata Nilai';
+   
     protected static ?string $navigationGroup = 'Hasil & Evaluasi';
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 3;
 
     public static function form(Form $form): Form
     {
-        return $form->schema([]);
+        return $form
+            ->schema([
+                Forms\Components\Select::make('matakuliah_id')
+                    ->label('Mata Kuliah')
+                    ->relationship('matakuliah', 'nama_mk')
+                    ->required()
+                    ->reactive(),
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -33,43 +42,59 @@ class AverageResource extends Resource
                     ->label('Mata Kuliah')
                     ->sortable()
                     ->searchable(),
-                
+
+                TextColumn::make('jumlah_mahasiswa')
+                    ->label('Jumlah Mahasiswa')
+                    ->getStateUsing(function ($record) {
+                        return Hasil::where('matakuliah_id', $record->matakuliah_id)->count();
+                    }),
+
                 TextColumn::make('average_absen')
                     ->label('Rata-Rata Absen')
-                    ->sortable(),
-                
+                    ->getStateUsing(function ($record) {
+                        return Hasil::where('matakuliah_id', $record->matakuliah_id)->avg('absen');
+                    }),
+
                 TextColumn::make('average_tugas')
                     ->label('Rata-Rata Tugas')
-                    ->sortable(),
+                    ->getStateUsing(function ($record) {
+                        return Hasil::where('matakuliah_id', $record->matakuliah_id)->avg('tugas');
+                    }),
 
                 TextColumn::make('average_uts')
                     ->label('Rata-Rata UTS')
-                    ->sortable(),
+                    ->getStateUsing(function ($record) {
+                        return Hasil::where('matakuliah_id', $record->matakuliah_id)->avg('uts');
+                    }),
 
                 TextColumn::make('average_uas')
                     ->label('Rata-Rata UAS')
-                    ->sortable(),
+                    ->getStateUsing(function ($record) {
+                        return Hasil::where('matakuliah_id', $record->matakuliah_id)->avg('uas');
+                    }),
 
                 TextColumn::make('average_total_nilai')
                     ->label('Rata-Rata Total Nilai')
-                    ->sortable(),
+                    ->getStateUsing(function ($record) {
+                        return Hasil::where('matakuliah_id', $record->matakuliah_id)->avg('total_nilai');
+                    }),
             ])
             ->filters([
-                //
+                // Tambahkan filter jika diperlukan
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
 
     public static function getRelations(): array
     {
-        return [];
+        return [
+            //
+        ];
     }
 
     public static function getPages(): array

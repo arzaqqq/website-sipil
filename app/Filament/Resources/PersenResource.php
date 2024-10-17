@@ -11,6 +11,7 @@ use Filament\Forms\Form; // Correct namespace
 use Filament\Tables\Table; // Pastikan import untuk Table benar
 use Filament\Resources\Resource;
 use App\Filament\Resources\PersenResource\Pages;
+use Filament\Forms\Components\Button;
 
 class PersenResource extends Resource
 {
@@ -81,7 +82,7 @@ class PersenResource extends Resource
                     ->afterStateUpdated(fn ($set, $get) => self::calculateTotalPersen($set, $get)),
 
                     Forms\Components\TextInput::make('total_persen')
-                    ->label('Total Persentase (%)')
+                    ->label('Total Persentase232 (%)')
                     ->numeric()
                     ->disabled()
                     ->default(0)

@@ -16,16 +16,14 @@ return new class extends Migration
             $table->foreignId('matakuliah_id')->constrained('matakuliahs');
             $table->foreignId('kelas_id')->constrained('kelas');
             $table->foreignId('persen_id')->constrained('persens');
-            $table->string('nama_mahasiswa');
-            $table->float('nim');
-            $table->integer('target');
-            $table->integer('hadir');
-            $table->float('absen');
-            $table->float('tugas');
-            $table->float('uts');
-            $table->float('uas');
-            $table->float('total_nilai');
-            $table->string('huruf_mutu');
+            $table->string('nama_mahasiswa')->nullable();
+            $table->float('nim')->nullable();
+            $table->float('absen')->nullable();
+            $table->float('tugas')->nullable();
+            $table->float('uts')->nullable();
+            $table->float('uas')->nullable();
+            $table->float('total_nilai')->nullable();
+            $table->string('huruf_mutu')->nullable();
             $table->timestamps();
         });
     }
