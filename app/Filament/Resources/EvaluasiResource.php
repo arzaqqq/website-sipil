@@ -3,7 +3,7 @@ namespace App\Filament\Resources;
 
 use Filament\Forms;
 use Filament\Tables;
-use App\Models\Avarage;
+
 use App\Models\Average;
 use App\Models\Evaluasi;
 use Filament\Forms\Form;
@@ -52,31 +52,40 @@ class EvaluasiResource extends Resource
                 Forms\Components\TextInput::make('indikator')
                     ->required(),
 
-                Forms\Components\Select::make('soal')
-                    ->options([
-                        'Tugas' => 'Tugas',
-                        'UTS' => 'UTS',
-                        'UAS' => 'UAS',
-                    ])
-                    ->required()
-                    ->reactive()
-                    ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set) {
-                        $matakuliahId = $get('matakuliah_id');
-                        $soal = $get('soal');
-                        
-                        if ($matakuliahId && $soal) {
-                            $average = Average::where('matakuliah_id', $matakuliahId)->first();
-                            if ($average) {
-                                $averageValue = match ($soal) {
-                                    'Tugas' => $average->average_tugas,
-                                    'UTS' => $average->average_uts,
-                                    'UAS' => $average->average_uas,
-                                    default => null,
-                                };
-                                $set('average_mahasiswa_angka', $averageValue);
-                            }
-                        }
-                    }),
+                    Forms\Components\Select::make('soal')
+    ->options([
+        'Tugas' => 'Tugas',
+        'UTS' => 'UTS',
+        'UAS' => 'UAS',
+    ])
+    ->required()
+    ->reactive()
+    ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set) {
+        $matakuliahId = $get('matakuliah_id');
+        $soal = $get('soal');
+
+        if ($matakuliahId && $soal) {
+            // Mengambil rata-rata dari model Hasil
+            $averageData = \App\Models\Hasil::calculateAverageScoresByMatakuliah()
+                ->firstWhere('matakuliah_id', $matakuliahId);
+
+            if ($averageData) {
+                // Sesuaikan kolom yang diambil dari rata-rata berdasarkan soal yang dipilih
+                $averageValue = match ($soal) {
+                    'Tugas' => $averageData->avg_tugas,
+                    'UTS' => $averageData->avg_uts,
+                    'UAS' => $averageData->avg_uas,
+                    default => null,
+                };
+                $set('average_mahasiswa_angka', $averageValue);
+            } else {
+                // Jika rata-rata tidak ditemukan
+                $set('average_mahasiswa_angka', null);
+            }
+        }
+    }),
+
+                
 
                 Forms\Components\TextInput::make('bobot')
                     ->numeric()
@@ -94,6 +103,7 @@ class EvaluasiResource extends Resource
                 Forms\Components\TextInput::make('average_mahasiswa_angka')
                     ->label('Rata-rata Nilai Mahasiswa')
                     ->numeric()
+                    // ->disabled()
                     ->required()
                     ->minValue(0)
                     ->maxValue(100)
@@ -108,6 +118,7 @@ class EvaluasiResource extends Resource
                 Forms\Components\TextInput::make('average_mahasiswa_persen')
     ->label('Persentase Nilai Mahasiswa')
     ->numeric()
+    // ->disabled()
     ->required()  // Tambahkan ini untuk memastikan field ini menjadi wajib
     ->disabled(false)  // Pastikan field ini tidak di-disable sehingga tetap ter-hydrate
     ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set) {
