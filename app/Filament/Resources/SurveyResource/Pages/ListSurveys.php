@@ -13,7 +13,12 @@ class ListSurveys extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            // Actions\CreateAction::make(),
         ];
+    }
+
+    protected function charts()
+    {
+        return view('surveys.charts');
     }
 }

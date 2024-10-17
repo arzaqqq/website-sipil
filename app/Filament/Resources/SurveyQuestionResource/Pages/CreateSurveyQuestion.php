@@ -9,4 +9,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateSurveyQuestion extends CreateRecord
 {
     protected static string $resource = SurveyQuestionResource::class;
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

@@ -20,8 +20,8 @@
 
       <!-- Menu Items -->
       <div id="menu" class="hidden lg:flex flex-none">
-          <ul class="menu menu-horizontal px-1 font-bold space-x-2">
-              <li><a href="{{url('/home')}}" class="hover:bg-green-600 hover:text-white active:bg-green-700 focus:outline-none focus:ring focus:ring-green-300">Beranda</a></li>
+          <ul class="menu menu-horizontal px-1 font-bold space-x-1">
+              <li><a href="{{url('/')}}" class="hover:bg-green-600 hover:text-white active:bg-green-700 focus:outline-none focus:ring focus:ring-green-300">Beranda</a></li>
               <li>
                   <details class="group">
                       <summary class="hover:bg-green-600 hover:text-white active:bg-green-700 focus:outline-none focus:ring focus:ring-green-300 cursor-pointer">Perkuliahan</summary>
@@ -35,8 +35,9 @@
                   <details class="group">
                       <summary class="hover:bg-green-600 hover:text-white active:bg-green-700 focus:outline-none focus:ring focus:ring-green-300 cursor-pointer">Penilaian</summary>
                       <ul class="bg-base-100 rounded-t-none p-2">
-                          <li><a href="{{url('/admin/login')}}" class="hover:bg-green-600 hover:text-white">Matakuliah</a></li>
-                          <li><a href="{{url('/admin/login')}}" class="hover:bg-green-600 hover:text-white">Kelas</a></li>
+                          <li><a href="{{url('/admin/login')}}" class="hover:bg-green-600 hover:text-white">Soal</a></li>
+                          <li><a href="{{url('/admin/login')}}" class="hover:bg-green-600 hover:text-white">Sampel Jawaban</a></li>
+                          <li><a href="{{url('/admin/login')}}" class="hover:bg-green-600 hover:text-white">Rubrik Penilaian</a></li>
                       </ul>
                   </details>
               </li>
@@ -44,8 +45,8 @@
                   <details class="group">
                       <summary class="hover:bg-green-600 hover:text-white active:bg-green-700 focus:outline-none focus:ring focus:ring-green-300 cursor-pointer">Evaluasi & Hasil</summary>
                       <ul class="bg-base-100 rounded-t-none p-2">
-                          <li><a href="{{url('/admin/login')}}" class="hover:bg-green-600 hover:text-white">Matakuliah</a></li>
-                          <li><a href="{{url('/admin/login')}}" class="hover:bg-green-600 hover:text-white">Kelas</a></li>
+                          <li><a href="{{url('/admin/login')}}" class="hover:bg-green-600 hover:text-white">Hasil</a></li>
+                          <li><a href="{{url('/admin/login')}}" class="hover:bg-green-600 hover:text-white">Evaluasi</a></li>
                       </ul>
                   </details>
               </li>
