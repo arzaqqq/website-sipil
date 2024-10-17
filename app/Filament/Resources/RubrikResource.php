@@ -44,8 +44,28 @@ class RubrikResource extends Resource
                     })
                     ->required(),
 
-                FileUpload::make('file_rubrik')
-                    ->label('File Rubrik')
+                FileUpload::make('file_rubrik_quiz')
+                    ->label('File Rubrik Quiz')
+                    ->required()
+                    ->multiple() // Menandakan bahwa ini adalah array file
+                    ->preserveFilenames()
+                    ->directory('rubrik'),
+
+                FileUpload::make('file_rubrik_latihan')
+                    ->label('File Rubrik Latihan')
+                    ->required()
+                    ->multiple() // Menandakan bahwa ini adalah array file
+                    ->preserveFilenames()
+                    ->directory('rubrik'),
+
+                FileUpload::make('file_rubrik_uts')
+                    ->label('File Rubrik UTS')
+                    ->required()
+                    ->preserveFilenames()
+                    ->directory('rubrik'),
+
+                FileUpload::make('file_rubrik_uas')
+                    ->label('File Rubrik UAS')
                     ->required()
                     ->preserveFilenames()
                     ->directory('rubrik'),
@@ -62,14 +82,73 @@ class RubrikResource extends Resource
                 Tables\Columns\TextColumn::make('kelas.nama_kelas')
                     ->label('Kelas'),
 
-                    Tables\Columns\TextColumn::make('file_rubrik')
-                     ->label('File Rubrik')
-                        ->formatStateUsing(fn ($state) => $state ? 'Lihat File' : 'No File')
-                        ->html()    
-                        ->extraAttributes(['style' => 'text-align: left;']) // Mengatur teks agar rata kiri
-                        ->tooltip(fn ($state) => $state ? 'Klik untuk mengunduh' : null) // Menambahkan tooltip jika file ada
-                        ->url(fn ($record) => $record->file_rubrik ? asset('storage/' . $record->file_rubrik) : null) // Mengatur URL untuk unduhan
-                        ->openUrlInNewTab(), // Membuka URL di tab baru
+                    Tables\Columns\TextColumn::make('file_rubrik_quiz')
+                    ->label('file rubrik quiz')
+                    ->formatStateUsing(function ($record) {
+                        // Check if the `quiz` field is an array of file paths
+                        if (is_array($record->file_rubrik_quiz)) {
+                            return collect($record->file_rubrik_quiz)
+                                ->map(function ($file, $index) {
+                                    // Generate URL for each file
+                                    $fileUrl = asset('storage/' . $file); // Generate the file URL
+                                    $fileName = 'Rubrik ' . ($index + 1); // Create the name as "latihan 1", "latihan 2", etc.
+                
+                                    // Return the file name as a clickable link with inline-block styling
+                                    return "<a href='{$fileUrl}' target='_blank' style='display: inline-block; margin-right: 5px;'>{$fileName}</a>";
+                                })
+                                ->implode(' | '); // Use ' | ' to separate the links
+                        }
+                
+                        // Handle case for single file or no file
+                        return $record->latihan 
+                            ? "<a href='" . asset('storage/' . $record->file_rubrik_latihan) . "' target='_blank' style='display: inline-block;'>latihan 1</a>" 
+                            : 'No File'; // Handle case for no file
+                    })
+                    ->html(), // Ensure the HTML is rendered
+                
+                              
+
+    Tables\Columns\TextColumn::make('file_rubrik_latihan')
+    ->label('file rubrik latihan')
+    ->formatStateUsing(function ($record) {
+        // Check if the `latihan` field is an array of file paths
+        if (is_array($record->file_rubrik_latihan)) {
+            return collect($record->file_rubrik_latihan)
+                ->map(function ($file, $index) {
+                    // Generate URL for each file
+                    $fileUrl = asset('storage/' . $file); // Generate the file URL
+                    $fileName = 'Rubrik ' . ($index + 1); // Create the name as "latihan 1", "latihan 2", etc.
+
+                    // Return the file name as a clickable link with inline-block styling
+                    return "<a href='{$fileUrl}' target='_blank' style='display: inline-block; margin-right: 5px;'>{$fileName}</a>";
+                })
+                ->implode(' | '); // Use ' | ' to separate the links
+        }
+
+        // Handle case for single file or no file
+        return $record->latihan 
+            ? "<a href='" . asset('storage/' . $record->file_rubrik_latihan) . "' target='_blank' style='display: inline-block;'>latihan 1</a>" 
+            : 'No File'; // Handle case for no file
+    })
+    ->html(), // Ensure the HTML is rendered
+
+               
+
+                
+
+                Tables\Columns\TextColumn::make('file_rubrik_uts')
+                    ->label('File Rubrik UTS')
+                    ->formatStateUsing(fn ($state) => $state ? "<a href='" . asset('storage/' . $state) . "' target='_blank'>Lihat File</a>" : 'No File')
+                    ->html()
+                    ->extraAttributes(['style' => 'text-align: left;'])
+                    ->tooltip(fn ($state) => $state ? 'Klik untuk mengunduh' : null),
+
+                Tables\Columns\TextColumn::make('file_rubrik_uas')
+                    ->label('File Rubrik UAS')
+                    ->formatStateUsing(fn ($state) => $state ? "<a href='" . asset('storage/' . $state) . "' target='_blank'>Lihat File</a>" : 'No File')
+                    ->html()
+                    ->extraAttributes(['style' => 'text-align: left;'])
+                    ->tooltip(fn ($state) => $state ? 'Klik untuk mengunduh' : null),
             ])
             ->filters([
                 // Tambahkan filter jika diperlukan
@@ -84,7 +163,6 @@ class RubrikResource extends Resource
             ]);
     }
     
-
     public static function getRelations(): array
     {
         return [

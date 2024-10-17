@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('sampel_jawabans', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('matakuliah_id')->constrained('matakuliahs')->onDelete('cascade');
             $table->string('sampel_quiz');
             $table->string('sampel_latihan');
             $table->string('sampel_UTS');

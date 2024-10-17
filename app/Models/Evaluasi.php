@@ -13,7 +13,7 @@ class Evaluasi extends Model
 
     public function avarage()
     {
-        return $this->belongsTo(Avarage::class, 'avarage_id');
+        return $this->belongsTo(Average::class, 'avarage_id');
     }
     
     public function matakuliah()
