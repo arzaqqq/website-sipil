@@ -9,7 +9,10 @@ use Filament\Forms\Form;
 use Filament\Tables\Table;
 use App\Models\SurveyQuestion;
 use Filament\Resources\Resource;
+use Filament\Navigation\NavigationItem;
+use Filament\Tables\Filters\SelectFilter;
 use App\Filament\Resources\SurveyResource\Pages;
+use App\Filament\Resources\SurveyResource\Pages\SurveyChart;
 
 class SurveyResource extends Resource
 {
@@ -79,10 +82,21 @@ class SurveyResource extends Resource
                 })->toArray()
             ))
             ->filters([
-                // Tambahkan filter jika diperlukan
+                Tables\Filters\SelectFilter::make('matakuliah_id')
+                    ->label('Matakuliah')
+                    ->relationship('matakuliah', 'nama_mk')
+                    ->multiple(), // Jika ingin filter dengan multiple selection
+                // Filter berdasarkan Nama Dosen
+                SelectFilter::make('nama_dosen')
+                    ->label('Nama Dosen')
+                    ->options(
+                        Survey::distinct()->pluck('nama_dosen')->mapWithKeys(fn($name) => [$name => $name])
+                    )
+                    ->placeholder('Pilih nama dosen...')
+                    ->multiple(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                // Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -98,6 +112,26 @@ class SurveyResource extends Resource
             'create' => Pages\CreateSurvey::route('/create'),
             'edit' => Pages\EditSurvey::route('/{record}/edit'),
             'chart' => Pages\SurveyChart::route('/chart'),
+
+        ];
+    }
+
+    public static function getNavigationItems(): array
+    {
+        return [
+            // Menu default untuk ListSurveys
+            NavigationItem::make()
+                ->label('Survey List')
+                ->icon('heroicon-o-rectangle-stack')
+                ->group('Survey & Tindak lanjut')
+                ->url(static::getUrl()),
+
+            // Menu tambahan untuk SurveyChart
+            NavigationItem::make()
+                ->label('Survey Chart')
+                ->icon('heroicon-o-chart-bar')
+                ->group('Survey & Tindak lanjut')
+                ->url(SurveyChart::getUrl()),  // URL ke SurveyChart
         ];
     }
 }

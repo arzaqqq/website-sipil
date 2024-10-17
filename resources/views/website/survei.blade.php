@@ -32,12 +32,23 @@ Survei
                 @endif
             @csrf
             <div class="space-y-12 step" style="display: block">
-                <div class="border-b border-gray-900/10 pb-12 mt-8">
-                    <h2 class="text-base font-semibold leading-7 text-gray-900">Informasi Personal</h2>
-                    <p class="mt-1 text-sm leading-6 text-gray-600">Use a permanent address where you can receive mail.</p>
+                <div class="mb-8 border-b border-gray-300 pb-4">
+                    <h2 class="text-lg font-semibold text-gray-900">PETUNJUK PENGISIAN</h2>
+                    <ol class="list-decimal ml-5 text-gray-700">
+                        <li>Kuesioner ini wajib diisi oleh setiap mahasiswa Jurusan Teknik Sipil Fakultas Teknik Universitas Malikussaleh.</li>
+                        <li>Setiap kuesioner berlaku untuk satu dosen (mohon isi ulang/ submit respons baru untuk mengevaluasi dosen lainnya).</li>
+                        <li>Mahasiswa wajib mengisi sejumlah matakuliah yang diambil untuk setiap dosen pengampu (Misal: jika mengambil 12 MK dengan masing-masing 2 dosen pengampu, maka harap mengisi form 24 kali).</li>
+                        <li>Kuesioner bersifat rahasia (tidak disebarluaskan).</li>
+                        <li>Kuesioner tidak mempengaruhi nilai Matakuliah.</li>
+                        <li>Mohon diisi dengan SERIUS dan JUJUR ke dalam form ini.</li>
+                    </ol>
+                </div>
+                <div class="border-b border-gray-900/10 pb-12 mt-2">
+                    <h2 class="text-base font-semibold leading-7 text-gray-900">Data Mahasiswa</h2>
+                    <p class="mt-1 text-sm leading-6 text-gray-600">Data anda bersifat rahasia</p>
           
                     <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                        <div class="sm:col-span-3">
+                        <div class="sm:col-span-4">
                             <label for="nama" class="block text-sm font-medium leading-6 text-gray-900">Nama Lengkap</label>
                             <div class="mt-2">
                                 <input type="text" name="nama" id="nama" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
@@ -84,7 +95,7 @@ Survei
                             </div>
                         </div>
             
-                        <div class="sm:col-span-3">
+                        <div class="sm:col-span-4">
                             <label for="nama_dosen" class="block text-sm font-medium leading-6 text-gray-900">Dosen</label>
                             <div class="mt-2">
                                 <input type="text" name="nama_dosen" id="nama_dosen" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>

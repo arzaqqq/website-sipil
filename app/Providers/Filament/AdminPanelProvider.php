@@ -31,7 +31,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
-            ->brandName('Website Sipil')
+            ->brandName('Website Teknik Sipil')
             ->colors([
                 'primary' => Color::Blue,
             ])
