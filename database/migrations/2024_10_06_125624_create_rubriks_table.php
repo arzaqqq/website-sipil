@@ -15,7 +15,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('matakuliah_id')->constrained('matakuliahs');
             $table->foreignId('kelas_id')->constrained('kelas');
-            $table->string('file_rubrik');
+            $table->json('file_rubrik_quiz');
+            $table->json('file_rubrik_latihan');
+            $table->string('file_rubrik_uts');
+            $table->string('file_rubrik_uas');
+
             $table->timestamps();
         });
     }

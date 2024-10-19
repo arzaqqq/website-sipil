@@ -11,6 +11,11 @@ class Rubrik extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'file_rubrik_quiz' => 'array',
+        'file_rubrik_latihan' => 'array',
+    ];
+
     public function kelas()
     {
         return $this->belongsTo(Kelas::class);

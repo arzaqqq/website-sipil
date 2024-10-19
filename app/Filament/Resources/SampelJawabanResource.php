@@ -26,6 +26,13 @@ class SampelJawabanResource extends Resource
     {
         return $form
             ->schema([
+
+                Forms\Components\Select::make('matakuliah_id')
+                ->label('Mata Kuliah')
+                ->relationship('matakuliah', 'nama_mk')
+                ->required()
+                ->reactive(),
+                
                 Forms\Components\FileUpload::make('sampel_quiz')
                     ->label('Sampel Quiz')
                     ->directory('sampel')
@@ -53,6 +60,10 @@ class SampelJawabanResource extends Resource
     {
         return $table
             ->columns([
+
+                Tables\Columns\TextColumn::make('mataKuliah.nama_mk')
+                    ->label('Mata Kuliah'),
+                    
                 TextColumn::make('sampel_quiz')
                 ->label('Sampel Quiz')
                 ->formatStateUsing(fn($state) => $state ? 'Lihat Sampel Quiz' : 'No File')

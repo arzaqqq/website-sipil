@@ -50,23 +50,23 @@ class SoalResource extends Resource
                     ->reorderable()
                     ->openable()
                     ->downloadable()
-                    ->required(false),
+                    ->required(),
 
                 Forms\Components\FileUpload::make('latihan')
                     ->label('Latihan Files')
                     ->preserveFilenames()
                     ->multiple()
-                    ->required(false),
+                    ->required(),
 
                 Forms\Components\FileUpload::make('UTS')
                     ->label('UTS File')
                     ->preserveFilenames()
-                    ->required(false), // No multiple files for UTS
+                    ->required(), // No multiple files for UTS
 
                 Forms\Components\FileUpload::make('UAS')
                     ->label('UAS File')
                     ->preserveFilenames()
-                    ->required(false), // No multiple files for UAS
+                    ->required(), // No multiple files for UAS
             ]);
     }
     
@@ -79,7 +79,7 @@ class SoalResource extends Resource
 
                 Tables\Columns\TextColumn::make('kelas.nama_kelas')
                     ->label('Kelas'),
-                    Tables\Columns\TextColumn::make('quiz')
+    Tables\Columns\TextColumn::make('quiz')
     ->label('Quiz Files')
     ->formatStateUsing(function ($record) {
         // Check if quiz is an array

@@ -19,4 +19,9 @@ class Average extends Model
     {
         return $this->hasMany(Hasil::class, 'matakuliah_id', 'matakuliah_id');
     }
+
+    public function evaluasi()
+    {
+        return $this->hasMany(Evaluasi::class,);
+    }
 }

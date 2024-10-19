@@ -10,4 +10,9 @@ class SampelJawaban extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function mataKuliah()
+    {
+        return $this->belongsTo(MataKuliah::class ,'matakuliah_id'); 
+    }
 }

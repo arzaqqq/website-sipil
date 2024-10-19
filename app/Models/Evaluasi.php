@@ -11,9 +11,9 @@ class Evaluasi extends Model
 
     protected $guarded = [];
 
-    public function avarage()
+    public function average()
     {
-        return $this->belongsTo(Avarage::class, 'avarage_id');
+        return $this->belongsTo(Average::class, 'average_id');
     }
     
     public function matakuliah()

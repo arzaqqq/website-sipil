@@ -38,6 +38,11 @@ class Matakuliah extends Model
         return $this->hasMany(Soal::class);
     } 
 
+    public function sampeljawaban()
+    {
+        return $this->hasMany(SampelJawaban::class);
+    } 
+
     public function filehasil()
     {
         return $this->hasMany(FileHasil::class);

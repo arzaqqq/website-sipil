@@ -20,7 +20,7 @@ class AverageResource extends Resource
     protected static ?string $label = 'Rata-rata Nilai';
    
     protected static ?string $navigationGroup = 'Hasil & Evaluasi';
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 4;
 
     public static function form(Form $form): Form
     {
