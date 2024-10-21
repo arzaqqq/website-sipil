@@ -54,10 +54,10 @@
                 <details class="group">
                     <summary class="hover:bg-green-600 hover:text-white  text-slate-800 active:bg-green-700 focus:outline-none focus:ring focus:ring-green-300 cursor-pointer">Dokumen</summary>
                     <ul class="bg-base-100 rounded-t-none p-2">
-                        <li><a href="#" class="hover:bg-green-600 hover:text-white">Kurikulum</a></li>
-                        <li><a href="#" class="hover:bg-green-600 hover:text-white">SK</a></li>
-                        <li><a href="#" class="hover:bg-green-600 hover:text-white">SPMI</a></li>
-                        <li><a href="#" class="hover:bg-green-600 hover:text-white">AMI</a></li>
+                        <li><a href="{{url('/admin/login')}}" class="hover:bg-green-600 hover:text-white">Kurikulum</a></li>
+                        <li><a href="{{url('/admin/login')}}" class="hover:bg-green-600 hover:text-white">SK</a></li>
+                        <li><a href="{{url('/admin/login')}}" class="hover:bg-green-600 hover:text-white">SPMI</a></li>
+                        <li><a href="{{url('/admin/login')}}" class="hover:bg-green-600 hover:text-white">AMI</a></li>
                     </ul>
                 </details>
             </li>

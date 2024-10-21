@@ -76,22 +76,6 @@ Beranda
                 <td>{!! $profile->deskripsi_profil !!}</td>
               </tr>
               @endforeach
-              
-              {{-- <tr class="hover:bg-green-200">
-                <th>2</th>
-                <td>Hart Hagerty</td>
-                <td>Desktop Support Technician</td>
-              </tr>
-              <tr class="hover:bg-green-200">
-                <th>3</th>
-                <td>Hart Hagerty</td>
-                <td>Desktop Support Technician</td>
-              </tr>
-              <tr class="hover:bg-green-200">
-                <th>4</th>
-                <td>Hart Hagerty</td>
-                <td>Desktop Support Technician</td>
-              </tr> --}}
             </tbody>
           </table>
         </div>
@@ -99,91 +83,4 @@ Beranda
     </div>
   </div>
   {{-- Akhir Profil Lulusan --}}
-
-  {{-- Awal  Dokumen Lainnya --}}
-  {{-- <div class="container mx-auto mt-8">
-    <div class="flex items-center justify-center">
-      <div class="w-24 h-1 bg-green-600 ms-12 mb-4 mt-4 " data-aos="fade-right" data-aos-duration="1000" data-aos-delay="200"></div>
-      <h1 class="text-3xl font-bold ms-4" data-aos="fade-down" data-aos-duration="1000" data-aos-delay="200">Dokumen Lainnya</h1>
-      <div class="w-24 h-1 bg-green-600 ms-4 mb-4 mt-4 " data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200"></div>
-    </div>
-      <div class="collapse" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
-        <input type="checkbox" />
-        <div class="collapse-title flex items-center text-base">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
-            <p class="text-base font-medium ms-1">Dokumen</p>
-          </svg>          
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-            </svg>
-        </div>
-        
-        <div class="collapse-content flex items-center ms-6">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5 mr-2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="m16.49 12 3.75 3.75m0 0-3.75 3.75m3.75-3.75H3.74V4.499" />
-          </svg>
-          <p class="text-sm">Dokumen Kurikulum</p>
-        </div>
-      </div>
-      <div class="collapse" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
-        <input type="checkbox" />
-        <div class="collapse-title flex items-center text-base">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
-            <p class="text-base font-medium ms-1">SK</p>
-          </svg>          
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-            </svg>
-        </div>
-        
-        <div class="collapse-content flex items-center ms-6">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5 mr-2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="m16.49 12 3.75 3.75m0 0-3.75 3.75m3.75-3.75H3.74V4.499" />
-          </svg>
-          <p class="text-sm">Dokumen SK</p>
-        </div>
-      </div>
-      <div class="collapse" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
-        <input type="checkbox" />
-        <div class="collapse-title flex items-center text-base">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
-            <p  class="text-base font-medium ms-1">SPMI</p>
-          </svg>          
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-            </svg>
-        </div>
-        
-        <div class="collapse-content flex items-center ms-6">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5 mr-2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="m16.49 12 3.75 3.75m0 0-3.75 3.75m3.75-3.75H3.74V4.499" />
-          </svg>
-          <a href="#" target="_blank" class="text-sm">Dokumen SPMI</a>
-        </div>
-      </div>
-      <div class="collapse" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
-        <input type="checkbox" />
-        <div class="collapse-title flex items-center text-base">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
-            <p class="text-base font-medium ms-1">AMI</p>
-          </svg>          
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-            </svg>
-        </div>
-        
-        <div class="collapse-content flex items-center ms-6">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5 mr-2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="m16.49 12 3.75 3.75m0 0-3.75 3.75m3.75-3.75H3.74V4.499" />
-          </svg>
-          <a href="#" target="_blank" class="text-sm">Dokumen AMI</a>
-        </div>
-      </div>
-      
-  </div> --}}
-  {{-- Akhir Dokumen Lainnya --}}
 @endsection

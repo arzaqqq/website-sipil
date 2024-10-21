@@ -51,21 +51,21 @@ Survei
                         <div class="sm:col-span-4">
                             <label for="nama" class="block text-sm font-medium leading-6 text-gray-900">Nama Lengkap</label>
                             <div class="mt-2">
-                                <input type="text" name="nama" id="nama" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                <input type="text" name="nama" id="nama" placeholder="Contoh: Muhammad Ali" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
                             </div>
                         </div>
             
                         <div class="sm:col-span-4">
                             <label for="nim" class="block text-sm font-medium leading-6 text-gray-900">NIM</label>
                             <div class="mt-2">
-                                <input type="text" name="nim" id="nim" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                <input type="text" name="nim" id="nim" placeholder="Contoh: 201901000" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
                             </div>
                         </div>
             
                         <div class="sm:col-span-4">
                             <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email Mahasiswa</label>
                             <div class="mt-2">
-                                <input id="email" name="email" type="email" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                <input id="email" name="email" type="email" placeholder="Contoh: muhammad.20190@mhs.unimal.ac.id" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
                             </div>
                         </div>
 
@@ -98,7 +98,7 @@ Survei
                         <div class="sm:col-span-4">
                             <label for="nama_dosen" class="block text-sm font-medium leading-6 text-gray-900">Dosen</label>
                             <div class="mt-2">
-                                <input type="text" name="nama_dosen" id="nama_dosen" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
+                                <input type="text" name="nama_dosen" placeholder="Contoh: John Doe., ST., MT." id="nama_dosen" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
                             </div>
                         </div>
                     </div>
@@ -179,15 +179,25 @@ Survei
     }
 
     nextBtn.forEach(button => {
-        button.addEventListener("click", () => {
-            if (currentStep < steps.length - 1) {
-                steps[currentStep].style.display = "none";
-                currentStep++;
-                steps[currentStep].style.display = "block";
-                updateButtons();
+    button.addEventListener("click", () => {
+        const currentStepFields = steps[currentStep].querySelectorAll("input[required], select[required]");
+        let allValid = true;
+
+        currentStepFields.forEach(field => {
+            if (!field.checkValidity()) {
+                allValid = false;
+                field.reportValidity(); // Menampilkan pesan validasi
             }
         });
+
+        if (allValid && currentStep < steps.length - 1) {
+            steps[currentStep].style.display = "none";
+            currentStep++;
+            steps[currentStep].style.display = "block";
+            updateButtons();
+        }
     });
+});
 
     prevBtn.forEach(button => {
         button.addEventListener("click", () => {
