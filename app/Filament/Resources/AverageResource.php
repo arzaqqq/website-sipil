@@ -88,7 +88,7 @@ class AverageResource extends Resource
                 // Tambahkan filter jika diperlukan
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
