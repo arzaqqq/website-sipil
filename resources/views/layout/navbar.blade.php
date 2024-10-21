@@ -2,7 +2,7 @@
   $logo = get_section_data('Gambar logo')
 @endphp
 
-<div class="navbar bg-base-100 sticky top-0 shadow-md z-50" data-aos="fade-down" data-aos-duration="1000" data-aos-delay="200">
+<div class="navbar bg-white sticky top-0 shadow-md z-50" data-aos="fade-down" data-aos-duration="1000" data-aos-delay="200">
   <div class="flex justify-between items-center ms-8 w-full">
       <!-- Logo -->
       <div class="flex-1">
@@ -21,10 +21,10 @@
       <!-- Menu Items -->
       <div id="menu" class="hidden lg:flex flex-none">
           <ul class="menu menu-horizontal px-1 font-bold space-x-1">
-              <li><a href="{{url('/')}}" class="hover:bg-green-600 hover:text-white active:bg-green-700 focus:outline-none focus:ring focus:ring-green-300">Beranda</a></li>
+              <li><a href="{{url('/')}}" class="hover:bg-green-600 hover:text-white text-slate-800 active:bg-green-700 focus:outline-none focus:ring focus:ring-green-300">Beranda</a></li>
               <li>
                   <details class="group">
-                      <summary class="hover:bg-green-600 hover:text-white active:bg-green-700 focus:outline-none focus:ring focus:ring-green-300 cursor-pointer">Perkuliahan</summary>
+                      <summary class="hover:bg-green-600 hover:text-white  text-slate-800 active:bg-green-700 focus:outline-none focus:ring focus:ring-green-300 cursor-pointer">Perkuliahan</summary>
                       <ul class="bg-base-100 rounded-t-none p-2">
                           <li><a href="{{url('/admin/login')}}" class="hover:bg-green-600 hover:text-white">Matakuliah</a></li>
                           <li><a href="{{url('/admin/login')}}" class="hover:bg-green-600 hover:text-white">Kelas</a></li>
@@ -33,7 +33,7 @@
               </li>
               <li>
                   <details class="group">
-                      <summary class="hover:bg-green-600 hover:text-white active:bg-green-700 focus:outline-none focus:ring focus:ring-green-300 cursor-pointer">Penilaian</summary>
+                      <summary class="hover:bg-green-600 hover:text-white  text-slate-800 active:bg-green-700 focus:outline-none focus:ring focus:ring-green-300 cursor-pointer">Penilaian</summary>
                       <ul class="bg-base-100 rounded-t-none p-2">
                           <li><a href="{{url('/admin/login')}}" class="hover:bg-green-600 hover:text-white">Soal</a></li>
                           <li><a href="{{url('/admin/login')}}" class="hover:bg-green-600 hover:text-white">Sampel Jawaban</a></li>
@@ -43,7 +43,7 @@
               </li>
               <li>
                   <details class="group">
-                      <summary class="hover:bg-green-600 hover:text-white active:bg-green-700 focus:outline-none focus:ring focus:ring-green-300 cursor-pointer">Evaluasi & Hasil</summary>
+                      <summary class="hover:bg-green-600  hover:text-white  text-slate-800 active:bg-green-700 focus:outline-none focus:ring focus:ring-green-300 cursor-pointer">Evaluasi & Hasil</summary>
                       <ul class="bg-base-100 rounded-t-none p-2">
                           <li><a href="{{url('/admin/login')}}" class="hover:bg-green-600 hover:text-white">Hasil</a></li>
                           <li><a href="{{url('/admin/login')}}" class="hover:bg-green-600 hover:text-white">Evaluasi</a></li>
@@ -52,7 +52,7 @@
               </li>
               <li>
                 <details class="group">
-                    <summary class="hover:bg-green-600 hover:text-white active:bg-green-700 focus:outline-none focus:ring focus:ring-green-300 cursor-pointer">Dokumen</summary>
+                    <summary class="hover:bg-green-600 hover:text-white  text-slate-800 active:bg-green-700 focus:outline-none focus:ring focus:ring-green-300 cursor-pointer">Dokumen</summary>
                     <ul class="bg-base-100 rounded-t-none p-2">
                         <li><a href="#" class="hover:bg-green-600 hover:text-white">Kurikulum</a></li>
                         <li><a href="#" class="hover:bg-green-600 hover:text-white">SK</a></li>
@@ -61,7 +61,7 @@
                     </ul>
                 </details>
             </li>
-              <li><a href="{{url('/survei')}}" class="hover:bg-green-600 hover:text-white active:bg-green-700 focus:outline-none focus:ring focus:ring-green-300">Survei</a></li>
+              <li><a href="{{url('/survei')}}" class="hover:bg-green-600  text-slate-800 hover:text-white active:bg-green-700 focus:outline-none focus:ring focus:ring-green-300">Survei</a></li>
               <li class="flex items-center">
                 <a href="{{url('/admin/login')}}" target="_blank" class="bg-green-600 text-white hover:bg-white hover:outline hover:outline-black hover:text-black flex items-center hover:outline-offset-[-2px]">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">

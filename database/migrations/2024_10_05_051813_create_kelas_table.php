@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('matakuliah_id')->constrained('matakuliahs');
             $table->boolean('status')->default(1); // Default ke 1 (aktif)
             $table->string('nama_kelas');
+            $table->string('file_template');
             $table->string('file_kelas');
             $table->timestamps();
         });

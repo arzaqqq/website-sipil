@@ -57,13 +57,20 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('avatar_url')
-                    ->label('Foto')
-                    ->circular(),
+    ->label('Foto')
+    ->circular()
+    ->getStateUsing(function ($record) {
+        return $record->avatar_url ?: 'path_to_placeholder_image'; // Ganti dengan path gambar placeholder jika gambar tidak ada
+    }),
+
                 Tables\Columns\TextColumn::make('name')
                     ->label('Nama')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('role')
                     ->label('Role')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('email')
+                    ->label('Email')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Data dibuat')

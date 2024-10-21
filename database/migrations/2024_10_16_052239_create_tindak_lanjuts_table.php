@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('tindak_lanjuts', function (Blueprint $table) {
             $table->id();
             $table->string('file_tindak_lanjut');
+            $table->string('semester');
+            $table->string('tahun_ajaran');
             $table->timestamps();
         });
     }

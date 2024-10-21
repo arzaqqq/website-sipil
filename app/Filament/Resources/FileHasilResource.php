@@ -31,22 +31,44 @@ class FileHasilResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('matakuliah_id')
-                    ->label('Mata Kuliah')
-                    ->relationship('matakuliah', 'nama_mk')
-                    ->required()
-                    ->reactive(),
-                
+                ->label('Mata Kuliah')
+                ->relationship('matakuliah', 'nama_mk') // Relasi dengan kolom 'nama_mk'
+                ->required()
+                ->searchable()
+                ->getOptionLabelFromRecordUsing(function ($record) {
+                    // Menggabungkan nama mata kuliah dengan tahun ajaran untuk ditampilkan
+                    return "{$record->nama_mk} - {$record->tahun_ajaran}";
+                })
+                ->reactive(),
+            
                 Forms\Components\Select::make('kelas_id')
-                    ->label('Kelas')
-                    ->options(function (callable $get) {
-                        $matakuliahId = $get('matakuliah_id');
-                        if (!$matakuliahId) {
-                            return [];
-                        }
-                        return \App\Models\Kelas::where('matakuliah_id', $matakuliahId)
-                            ->pluck('nama_kelas', 'id');
-                    })
-                    ->required(),
+                ->label('Kelas')
+                ->searchable()
+                ->options(function (callable $get) {
+                    $matakuliahId = $get('matakuliah_id');
+                    if (!$matakuliahId) {
+                        return [];
+                    }
+                    return \App\Models\Kelas::where('matakuliah_id', $matakuliahId)
+                        ->pluck('nama_kelas', 'id');
+                })
+                ->required()
+                ->rules(function (callable $get, $record) {
+                    return [
+                        function (string $attribute, $value, $fail) use ($get, $record) {
+                            // Cek apakah kombinasi duplikat, kecuali data yang sedang diubah
+                            $exists = \App\Models\FileHasil::where('matakuliah_id', $get('matakuliah_id'))
+                                ->where('kelas_id', $value)
+                                ->when($record, fn ($query) => $query->where('id', '!=', $record->id)) // Abaikan ID yang sedang diubah
+                                ->exists();
+            
+                            if ($exists) {
+                                $fail('Kombinasi Mata Kuliah dan Kelas sudah ada.');
+                            }
+                        },
+                    ];
+                }),
+            
 
                     FileUpload::make('file_hasil')
                     ->label('File Hasil Nilai')
@@ -65,18 +87,28 @@ class FileHasilResource extends Resource
 
                 Tables\Columns\TextColumn::make('kelas.nama_kelas')
                     ->label('Kelas'),
+                
+                Tables\Columns\TextColumn::make('matakuliah.tahun_ajaran')
+                    ->label('Tahun Ajaran')
+                    ->sortable()
+                    ->searchable(),
                     
                     TextColumn::make('file_hasil')
                     ->label('File Hasil Nilai')
                     ->formatStateUsing(function ($state) {
-                        // Extract the filename from the path
-                        return basename($state);
+                        // Ubah tampilannya menjadi teks yang diinginkan
+                        return $state ? 'File Hasil Penilaian' : 'Tidak Ada File';
                     })
                     ->url(function ($record) {
                         // Generate a downloadable URL
-                        return Storage::url($record->file_hasil);
+                        return $record->file_hasil ? Storage::url($record->file_hasil) : null;
                     })
-                    ,
+                    ->openUrlInNewTab()  // Membuka file di tab baru
+                    ->extraAttributes([
+                        'style' => 'cursor: pointer;',  // Ubah kursor menjadi pointer untuk indikasi klik
+                        'title' => 'Klik untuk mengunduh file hasil penilaian',  // Tooltip saat hover
+                    ])
+                
 
             ])
             ->filters([
@@ -84,6 +116,7 @@ class FileHasilResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

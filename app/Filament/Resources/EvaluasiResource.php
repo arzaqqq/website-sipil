@@ -10,6 +10,7 @@ use Filament\Forms\Form;
 use App\Models\Matakuliah;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use Filament\Tables\Filters\SelectFilter;
 use App\Filament\Resources\EvaluasiResource\Pages;
 
 class EvaluasiResource extends Resource
@@ -27,7 +28,11 @@ class EvaluasiResource extends Resource
             ->schema([
                 Forms\Components\Select::make('matakuliah_id')
                     ->label('Mata Kuliah')
-                    ->options(Matakuliah::pluck('nama_mk', 'id'))
+                    ->relationship('matakuliah', 'nama_mk')
+                    ->getOptionLabelFromRecordUsing(function ($record) {
+                        // Menggabungkan nama mata kuliah dengan tahun ajaran untuk ditampilkan
+                        return "{$record->nama_mk} - {$record->tahun_ajaran}";
+                    })
                     ->searchable()
                     ->required()
                     ->reactive()
@@ -52,38 +57,54 @@ class EvaluasiResource extends Resource
                 Forms\Components\TextInput::make('indikator')
                     ->required(),
 
-                    Forms\Components\Select::make('soal')
-    ->options([
-        'Tugas' => 'Tugas',
-        'UTS' => 'UTS',
-        'UAS' => 'UAS',
-    ])
-    ->required()
-    ->reactive()
-    ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set) {
-        $matakuliahId = $get('matakuliah_id');
-        $soal = $get('soal');
+             
+Forms\Components\Select::make('soal')
+->options([
+    'Tugas' => 'Tugas',
+    'UTS' => 'UTS',
+    'UAS' => 'UAS',
+])
+->required()
+->reactive()
+->afterStateUpdated(function (Forms\Get $get, Forms\Set $set) {
+    $matakuliahId = $get('matakuliah_id');
+    $soal = $get('soal');
 
-        if ($matakuliahId && $soal) {
-            // Mengambil rata-rata dari model Hasil
-            $averageData = \App\Models\Hasil::calculateAverageScoresByMatakuliah()
-                ->firstWhere('matakuliah_id', $matakuliahId);
+    if ($matakuliahId && $soal) {
+        // Mengambil rata-rata dari model Hasil
+        $averageData = \App\Models\Hasil::calculateAverageScoresByMatakuliah()
+            ->firstWhere('matakuliah_id', $matakuliahId);
 
-            if ($averageData) {
-                // Sesuaikan kolom yang diambil dari rata-rata berdasarkan soal yang dipilih
-                $averageValue = match ($soal) {
-                    'Tugas' => $averageData->avg_tugas,
-                    'UTS' => $averageData->avg_uts,
-                    'UAS' => $averageData->avg_uas,
-                    default => null,
-                };
-                $set('average_mahasiswa_angka', $averageValue);
-            } else {
-                // Jika rata-rata tidak ditemukan
-                $set('average_mahasiswa_angka', null);
-            }
+        if ($averageData) {
+            $averageValue = match ($soal) {
+                'Tugas' => $averageData->avg_tugas,
+                'UTS' => $averageData->avg_uts,
+                'UAS' => $averageData->avg_uas,
+                default => null,
+            };
+            $set('average_mahasiswa_angka', $averageValue);
+        } else {
+            $set('average_mahasiswa_angka', null);
         }
-    }),
+    }
+})
+->rules(function (Forms\Get $get, $record) {
+    return [
+        function (string $attribute, $value, $fail) use ($get, $record) {
+            $matakuliahId = $get('matakuliah_id');
+
+            // Cek apakah kombinasi `matakuliah_id` dan `soal` sudah ada
+            $exists = \App\Models\Evaluasi::where('matakuliah_id', $matakuliahId)
+                ->where('soal', $value)
+                ->when($record, fn ($query) => $query->where('id', '!=', $record->id))
+                ->exists();
+
+            if ($exists) {
+                $fail('Kombinasi Mata Kuliah dan Soal sudah ada.');
+            }
+        },
+    ];
+}),
 
                 
 
@@ -136,10 +157,15 @@ class EvaluasiResource extends Resource
     {
         return $table
             ->columns([
+                
                 Tables\Columns\TextColumn::make('matakuliah.nama_mk')
                     ->label('Mata Kuliah')
                     ->searchable()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('matakuliah.tahun_ajaran')
+                    ->label('Tahun Ajaran')
+                    ->sortable()
+                    ->searchable(),    
                 Tables\Columns\TextColumn::make('mg')
                     ->label('MG')
                     ->searchable(),
@@ -168,7 +194,22 @@ class EvaluasiResource extends Resource
                     ->suffix('%'),
             ])
             ->filters([
-                // Tambahkan filter jika diperlukan
+                SelectFilter::make('matakuliah_id')
+                ->label('Mata Kuliah')
+                ->relationship('matakuliah', 'nama_mk')
+                ->searchable()
+                ->placeholder('Pilih Mata Kuliah')
+                ->getOptionLabelFromRecordUsing(function ($record) {
+                    // Menggabungkan nama mata kuliah dengan tahun ajaran untuk ditampilkan
+                    return "{$record->nama_mk} - {$record->tahun_ajaran}";
+                }),
+            
+            
+                        SelectFilter::make('kelas_id')
+                            ->label('Kelas')
+                            ->relationship('kelas', 'nama_kelas')
+                            ->searchable()
+                            ->placeholder('Pilih Kelas'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

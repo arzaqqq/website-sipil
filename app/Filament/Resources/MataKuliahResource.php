@@ -52,6 +52,10 @@ class MatakuliahResource extends Resource
                     ->columnSpanFull()
                     ->directory('RPS')
                     ->preserveFilenames() ,
+                TextInput::make('tahun_ajaran')
+                    ->required()
+                    ->label('Tahun Ajaran')
+                    ->columnSpanFull(),
                 Repeater::make('materis')
                     ->relationship('materis')
                     ->schema([
@@ -90,7 +94,10 @@ class MatakuliahResource extends Resource
                     ->searchable(),
                 TextColumn::make('semester')
                     ->label('Semester')
-                    ->formatStateUsing(fn ($state) => ucfirst($state)),    
+                    ->formatStateUsing(fn ($state) => ucfirst($state)), 
+                TextColumn::make('tahun_ajaran')
+                    ->label('Tahun Ajaran')
+                    ->searchable(),   
                 TextColumn::make('file_rps')
                 ->label('File RPS')
                 ->formatStateUsing(fn ($state) => $state ? '<a href="' . asset('storage/' . $state) . '" target="_blank">Download</a>' : 'No File')
@@ -108,14 +115,33 @@ class MatakuliahResource extends Resource
                      ->extraAttributes(['onclick' => 'event.stopPropagation();']),
             ])
             ->filters([
-                
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+         // Filter untuk Mata Kuliah
+         Tables\Filters\SelectFilter::make('nama_mk')
+         ->label('Nama Mata Kuliah')
+         ->searchable()
+         ->options(
+             Matakuliah::query()
+                 ->select('nama_mk')
+                 ->distinct()
+                 ->pluck('nama_mk', 'nama_mk')
+         ),
+
+     // Filter untuk Tahun Ajaran
+     Tables\Filters\SelectFilter::make('tahun_ajaran')
+         ->label('Tahun Ajaran')
+         ->searchable()
+         ->options(
+             Matakuliah::query()
+                 ->select('tahun_ajaran')
+                 ->distinct()
+                 ->pluck('tahun_ajaran', 'tahun_ajaran')
+         ) ])
+         ->actions([
+            Tables\Actions\EditAction::make(),
+            Tables\Actions\DeleteAction::make(),
+        ])
+        ->bulkActions([
+            Tables\Actions\DeleteBulkAction::make(),
                 
             ]);
             
