@@ -25,7 +25,7 @@ class Matakuliah extends Model
 
     public function materis()
     {
-        return $this->hasMany(Materi::class);
+        return $this->hasMany(Materi::class,);
     }
 
     public function kelas()
@@ -36,29 +36,29 @@ class Matakuliah extends Model
     public function soal()
     {
         return $this->hasMany(Soal::class);
-    } 
+    }
 
     public function sampeljawaban()
     {
         return $this->hasMany(SampelJawaban::class);
-    } 
+    }
 
     public function filehasil()
     {
         return $this->hasMany(FileHasil::class);
-    } 
+    }
 
     public function rubrik()
     {
         return $this->hasMany(Rubrik::class);
-    }  
+    }
 
     public function persen()
     {
         return $this->hasMany(Persen::class);
-    }  
+    }
     public function avarage()
     {
         return $this->hasMany(Average::class);
-    }  
+    }
 }

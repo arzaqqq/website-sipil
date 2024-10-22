@@ -57,11 +57,11 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('avatar_url')
-    ->label('Foto')
-    ->circular()
-    ->getStateUsing(function ($record) {
-        return $record->avatar_url ?: 'path_to_placeholder_image'; // Ganti dengan path gambar placeholder jika gambar tidak ada
-    }),
+                    ->label('Foto')
+                    ->circular()
+                    ->getStateUsing(function ($record) {
+                        return $record->avatar_url ?: 'path_to_placeholder_image'; // Ganti dengan path gambar placeholder jika gambar tidak ada
+                    }),
 
                 Tables\Columns\TextColumn::make('name')
                     ->label('Nama')
@@ -81,12 +81,29 @@ class UserResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\DeleteAction::make()->after(function (User $record) {
+                    if ($record->avatar_url) {
+                        $avatarPath = public_path('storage/' . $record->avatar_url); // Sesuaikan dengan path yang digunakan
+                        if (file_exists($avatarPath) && !is_dir($avatarPath)) {
+                            unlink($avatarPath);
+                        }
+                    }
+                }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
+                Tables\Actions\ForceDeleteBulkAction::make()->after(function (User $records) {
+                    foreach ($records as $record) {
+                        if ($record->avatar_url) {
+                            $avatarPath = public_path('storage/' . $record->avatar_url); // Sesuaikan dengan path yang digunakan
+                            if (file_exists($avatarPath) && !is_dir($avatarPath)) {
+                                unlink($avatarPath);
+                            }
+                        }
+                    }
+                }),
             ]);
     }
 

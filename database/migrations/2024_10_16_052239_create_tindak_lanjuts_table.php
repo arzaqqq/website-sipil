@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('semester');
             $table->string('file_tindak_lanjut');
+            $table->string('tahun_ajaran');
             $table->timestamps();
         });
     }

@@ -12,6 +12,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\TindakLanjutResource\Pages;
 use App\Filament\Resources\TindakLanjutResource\RelationManagers;
@@ -80,8 +81,18 @@ class TindakLanjutResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
                 ]),
+                Tables\Actions\DeleteBulkAction::make()->after(function (Collection $records) {
+                    foreach ($records as $record) {
+                        if ($record->file_tindak_lanjut) {
+                            $tindakPath = public_path('storage/' . $record->file_tindak_lanjut);
+                            if (file_exists($tindakPath) && !is_dir($tindakPath)) {
+                                unlink($tindakPath); // Menghapus file Quiz
+                            }
+                        }
+                    }
+                })
             ]);
     }
 

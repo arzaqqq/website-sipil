@@ -10,7 +10,6 @@ use App\Models\Matakuliah;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;
-use Filament\Notifications\Collection;
 use Filament\Forms\Components\Repeater;
 use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Columns\TextColumn;
@@ -19,6 +18,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\HasManyRepeater;
 use App\Filament\Resources\MatakuliahResource\Pages;
+use Illuminate\Database\Eloquent\Collection;
 
 
 class MatakuliahResource extends Resource
@@ -52,6 +52,10 @@ class MatakuliahResource extends Resource
                     ->columnSpanFull()
                     ->directory('RPS')
                     ->preserveFilenames(),
+                TextInput::make('tahun_ajaran')
+                    ->required()
+                    ->label('Tahun Ajaran')
+                    ->columnSpanFull(),
                 Repeater::make('materis')
                     ->relationship('materis')
                     ->schema([
@@ -91,6 +95,9 @@ class MatakuliahResource extends Resource
                 TextColumn::make('semester')
                     ->label('Semester')
                     ->formatStateUsing(fn($state) => ucfirst($state)),
+                TextColumn::make('tahun_ajaran')
+                    ->label('Tahun Ajaran')
+                    ->searchable(),
                 TextColumn::make('file_rps')
                     ->label('File RPS')
                     ->formatStateUsing(fn($state) => $state ? '<a href="' . asset('storage/' . $state) . '" target="_blank">Download</a>' : 'No File')
@@ -107,14 +114,77 @@ class MatakuliahResource extends Resource
                     ->html()
                     ->extraAttributes(['onclick' => 'event.stopPropagation();']),
             ])
-            ->filters([])
+            ->filters([
+                Tables\Filters\SelectFilter::make('nama_mk')
+                    ->label('Nama Mata Kuliah')
+                    ->searchable()
+                    ->options(
+                        Matakuliah::query()
+                            ->select('nama_mk')
+                            ->distinct()
+                            ->pluck('nama_mk', 'nama_mk')
+                    ),
+
+                // Filter untuk Tahun Ajaran
+                Tables\Filters\SelectFilter::make('tahun_ajaran')
+                    ->label('Tahun Ajaran')
+                    ->searchable()
+                    ->options(
+                        Matakuliah::query()
+                            ->select('tahun_ajaran')
+                            ->distinct()
+                            ->pluck('tahun_ajaran', 'tahun_ajaran')
+                    ),
+            ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\DeleteAction::make()->after(
+                    function (Matakuliah $record) {
+                        // Hapus file RPS
+                        if ($record->file_rps) {
+                            $rpsPath = public_path('storage/' . $record->file_rps);
+                            if (file_exists($rpsPath) && !is_dir($rpsPath)) {
+                                unlink($rpsPath); // Menghapus file RPS
+                            }
+                        }
+
+                        // Hapus semua file di dalam folder Materi
+                        foreach ($record->materis as $materi) {
+                            if ($materi->file_materi) {
+                                $materiPath = public_path('storage/' . $materi->file_materi);
+                                if (file_exists($materiPath) && !is_dir($materiPath)) {
+                                    unlink($materiPath); // Menghapus file Materi
+                                }
+                            }
+                        }
+                    }
+                ),
+
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                Tables\Actions\DeleteBulkAction::make()->after(
+                    function (Collection $records) {
+                        foreach ($records as $record) {
+                            // Hapus file RPS
+                            if ($record->file_rps) {
+                                $rpsPath = public_path('storage/' . $record->file_rps);
+                                if (file_exists($rpsPath) && !is_dir($rpsPath)) {
+                                    unlink($rpsPath); // Menghapus file RPS
+                                }
+                            }
 
+                            // Hapus semua file di dalam folder Materi
+                            foreach ($record->materis as $materi) {
+                                if ($materi->file_materi) {
+                                    $materiPath = public_path('storage/' . $materi->file_materi);
+                                    if (file_exists($materiPath) && !is_dir($materiPath)) {
+                                        unlink($materiPath); // Menghapus file Materi
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ),
             ]);
     }
 

@@ -10,6 +10,7 @@ use App\Models\SampelJawaban;
 use Filament\Resources\Resource;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use App\Filament\Resources\SampelJawabanResource\Pages;
 
 class SampelJawabanResource extends Resource
@@ -19,7 +20,7 @@ class SampelJawabanResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
 
     protected static ?string $navigationGroup = 'Penilaian';
-    
+
     protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
@@ -44,19 +45,19 @@ class SampelJawabanResource extends Resource
                     ->directory('sampel')
                     ->preserveFilenames()
                     ->required(),
-                
+
                 Forms\Components\FileUpload::make('sampel_latihan')
                     ->label('Sampel Latihan')
                     ->directory('sampel')
                     ->preserveFilenames()
                     ->required(),
-                
+
                 Forms\Components\FileUpload::make('sampel_UTS')
                     ->label('Sampel UTS')
                     ->directory('sampel')
                     ->preserveFilenames()
                     ->required(),
-                
+
                 Forms\Components\FileUpload::make('sampel_UAS')
                     ->label('Sampel UAS')
                     ->directory('sampel')
@@ -114,10 +115,68 @@ class SampelJawabanResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\DeleteAction::make()->after(function (SampelJawaban $record) {
+                    if ($record->sampel_quiz) {
+                        $quizPath = public_path('storage/' . $record->sampel_quiz);
+                        if (file_exists($quizPath) && !is_dir($quizPath)) {
+                            unlink($quizPath); // Menghapus file Quiz
+                        }
+                    }
+
+                    if ($record->sampel_latihan) {
+                        $latihanPath = public_path('storage/' . $record->sampel_latihan);
+                        if (file_exists($latihanPath) && !is_dir($latihanPath)) {
+                            unlink($latihanPath); // Menghapus file Latihan
+                        }
+                    }
+
+                    if ($record->sampel_UTS) {
+                        $utsPath = public_path('storage/' . $record->sampel_UTS);
+                        if (file_exists($utsPath) && !is_dir($utsPath)) {
+                            unlink($utsPath); // Menghapus file UTS
+                        }
+                    }
+
+                    if ($record->sampel_UAS) {
+                        $uasPath = public_path('storage/' . $record->sampel_UAS);
+                        if (file_exists($uasPath) && !is_dir($uasPath)) {
+                            unlink($uasPath); // Menghapus file UAS
+                        }
+                    }
+                }),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                Tables\Actions\DeleteBulkAction::make()->after(function (Collection $records) {
+                    foreach ($records as $record) {
+                        if ($record->sampel_quiz) {
+                            $quizPath = public_path('storage/' . $record->sampel_quiz);
+                            if (file_exists($quizPath) && !is_dir($quizPath)) {
+                                unlink($quizPath); // Menghapus file Quiz
+                            }
+                        }
+
+                        if ($record->sampel_latihan) {
+                            $latihanPath = public_path('storage/' . $record->sampel_latihan);
+                            if (file_exists($latihanPath) && !is_dir($latihanPath)) {
+                                unlink($latihanPath); // Menghapus file Latihan
+                            }
+                        }
+
+                        if ($record->sampel_UTS) {
+                            $utsPath = public_path('storage/' . $record->sampel_UTS);
+                            if (file_exists($utsPath) && !is_dir($utsPath)) {
+                                unlink($utsPath); // Menghapus file UTS
+                            }
+                        }
+
+                        if ($record->sampel_UAS) {
+                            $uasPath = public_path('storage/' . $record->sampel_UAS);
+                            if (file_exists($uasPath) && !is_dir($uasPath)) {
+                                unlink($uasPath); // Menghapus file UAS
+                            }
+                        }
+                    }
+                }),
             ]);
     }
 
