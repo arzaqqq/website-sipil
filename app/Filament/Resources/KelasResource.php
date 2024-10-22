@@ -14,12 +14,13 @@ use Filament\Resources\Components\Tab;
 use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
 use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use App\Filament\Resources\KelasResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\KelasResource\RelationManagers;
-use Illuminate\Database\Eloquent\Collection;
 
 
 
@@ -32,41 +33,91 @@ class KelasResource extends Resource
     protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-                Forms\Components\Select::make('matakuliah_id')
-                    ->relationship('matakuliah', 'nama_mk')
-                    ->required()
-                    ->columnSpanFull()
-                    ->searchable(),
+{
+    return $form
+        ->schema([
+            Forms\Components\Select::make('matakuliah_id')
+                ->label('Mata Kuliah')
+                ->options(
+                    \App\Models\Matakuliah::all()->mapWithKeys(function ($matakuliah) {
+                        return [
+                            $matakuliah->id => "{$matakuliah->nama_mk} - {$matakuliah->tahun_ajaran}"
+                        ];
+                    })
+                )
+                ->required()
+                ->searchable(),
+
                 Forms\Components\TextInput::make('nama_kelas')
-                    ->required()
-                    ->minLength(2)
-                    ->columnSpanFull(),
-               
-                FileUpload::make('file_kelas')
-                    ->label('File Kontak')
-                    ->required()
-                    ->columnSpanFull()
-                    ->directory('kelas')
-                    ->preserveFilenames() 
-                    
-            ]);
-    }
-    
+                ->label('Nama Kelas')
+                ->required()
+                ->minLength(2)
+                ->rules(function ($get, $record) {
+                    return [
+                        function (string $attribute, $value, $fail) use ($get, $record) {
+                            // Cek apakah kombinasi duplikat, kecuali data yang sedang diubah
+                            $exists = \App\Models\Kelas::where('matakuliah_id', $get('matakuliah_id'))
+                                ->where('nama_kelas', $value)
+                                ->when($record, fn ($query) => $query->where('id', '!=', $record->id)) // Abaikan ID yang sedang diubah
+                                ->exists();
+            
+                            if ($exists) {
+                                $fail('Kombinasi Mata Kuliah dan Nama Kelas sudah ada.');
+                            }
+                        },
+                    ];
+                }),
+            
+
+                
+
+            Forms\Components\FileUpload::make('file_template')
+                ->label('File Template')
+                ->required()
+                ->directory('template_kelas')
+                ->preserveFilenames(),
+
+            Forms\Components\FileUpload::make('file_kelas')
+                ->label('File Kontak')
+                ->required()
+                ->directory('kelas')
+                ->preserveFilenames(),
+        ])
+        ->columns(2); // Opsional, untuk mengatur layout kolom
+}
 
     public static function table(Table $table): Table
 {
     return $table
         ->columns([
-            Tables\Columns\TextColumn::make('nama_kelas')->sortable(),
-            Tables\Columns\TextColumn::make('matakuliah.nama_mk')->sortable(),
-            Tables\Columns\TextColumn::make('matakuliah.semester')->label('semester'),
+            Tables\Columns\TextColumn::make('nama_kelas')
+                ->sortable()
+                ->searchable(),
+            Tables\Columns\TextColumn::make('matakuliah.nama_mk')
+                ->label('Mata Kuliah')
+                ->sortable()
+                ->searchable(),
+            Tables\Columns\TextColumn::make('matakuliah.tahun_ajaran')
+                ->label('Tahun Ajaran')
+                ->sortable()
+                ->searchable(),
+            Tables\Columns\TextColumn::make('matakuliah.semester')
+                ->label('Semester'),
             Tables\Columns\TextColumn::make('status')
                 ->label('Status')
                 ->formatStateUsing(fn ($state) => $state ? 'Aktif' : 'Tidak Aktif'),
-                Tables\Columns\TextColumn::make('file_kelas')
+            Tables\Columns\TextColumn::make('file_template')
+                ->label('File Template')
+                ->formatStateUsing(fn ($state) => $state ? 'File Template' : 'No File')
+                ->url(fn ($record) => $record->file_template ? asset("storage/{$record->file_template}") : null)
+                ->openUrlInNewTab() 
+                ->extraAttributes([
+                    'style' => 'cursor: pointer; ',
+                    'title' => 'Download File Kontrak',
+                    'class' => 'hover-underline-primary',
+                    
+                ]),  
+            Tables\Columns\TextColumn::make('file_kelas')
                 ->label('File Kontrak')
                 ->formatStateUsing(fn ($state) => $state ? 'File Kontrak' : 'No File')
                 ->url(fn ($record) => $record->file_kelas ? asset("storage/{$record->file_kelas}") : null)
@@ -76,15 +127,42 @@ class KelasResource extends Resource
                     'title' => 'Download File Kontrak',
                     'class' => 'hover-underline-primary',
                     
-                ]),
+                ]),  
         ])
         ->filters([
+
+          
+            // Filter Semester Ganjil
             Tables\Filters\Filter::make('Semester Ganjil')
-                ->query(fn (Builder $query) => $query->whereHas('matakuliah', fn (Builder $query) => 
-                    $query->where('semester', 'ganjil'))), // Join ke tabel matakuliah
+                ->query(fn (Builder $query) => 
+                    $query->whereHas('matakuliah', fn (Builder $q) => 
+                        $q->where('semester', 'ganjil'))
+                ),
+
+            // Filter Semester Genap
             Tables\Filters\Filter::make('Semester Genap')
-                ->query(fn (Builder $query) => $query->whereHas('matakuliah', fn (Builder $query) => 
-                    $query->where('semester', 'genap'))), // Join ke tabel matakuliah
+                ->query(fn (Builder $query) => 
+                    $query->whereHas('matakuliah', fn (Builder $q) => 
+                        $q->where('semester', 'genap'))
+                ),
+            
+                
+            Tables\Filters\SelectFilter::make('nama_kelas')
+                ->label('Nama Kelas')
+                ->options(
+                    \App\Models\Kelas::all()->pluck('nama_kelas', 'nama_kelas')
+                )
+                ->searchable()
+                ->placeholder('Pilih Nama Kelas'),
+            // Filter Mata Kuliah
+            Tables\Filters\SelectFilter::make('matakuliah_id')
+                ->label('Mata Kuliah')
+                ->searchable()
+                ->relationship('matakuliah', 'nama_mk'),
+
+                
+
+           
         ])
         ->actions([
             Tables\Actions\EditAction::make(),
@@ -92,28 +170,25 @@ class KelasResource extends Resource
         ])
         ->bulkActions([
             Tables\Actions\BulkActionGroup::make([
-                // Tables\Actions\DeleteBulkAction::make(),
                 BulkAction::make('Aktif')
-                ->action(function (Collection $records) {
-                    $records->each->update(['status' => 1]); // Set to Aktif
-                })
-                ->label('Status Aktif')
-                ->icon('heroicon-o-check-circle')  // Add success icon
-                ->requiresConfirmation()
-                ->color('success'),
-            
-            BulkAction::make('Tidak Aktif')
-                ->action(function (Collection $records) {
-                    $records->each->update(['status' => 0]); // Set to Tidak Aktif
-                })
-                ->label('Status Tidak Aktif')
-                ->icon('heroicon-o-x-circle')  // Add danger icon
-                ->requiresConfirmation()
-                ->color('danger'),
-            
+                    ->action(fn (Collection $records) => 
+                        $records->each->update(['status' => 1]))
+                    ->label('Status Aktif')
+                    ->icon('heroicon-o-check-circle')
+                    ->requiresConfirmation()
+                    ->color('success'),
+
+                BulkAction::make('Tidak Aktif')
+                    ->action(fn (Collection $records) => 
+                        $records->each->update(['status' => 0]))
+                    ->label('Status Tidak Aktif')
+                    ->icon('heroicon-o-x-circle')
+                    ->requiresConfirmation()
+                    ->color('danger'),
             ]),
         ]);
 }
+
 
 
     public static function getRelations(): array

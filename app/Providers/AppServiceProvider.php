@@ -35,5 +35,6 @@ class AppServiceProvider extends ServiceProvider
 
 
         Hasil::observe(HasilObserver::class);
+        
     }
 }

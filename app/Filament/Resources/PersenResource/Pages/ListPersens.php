@@ -23,29 +23,43 @@ class ListPersens extends ListRecords
             Action::make('Tambah Persentase')
                 ->label('Tambah Persentase')
                 ->form([
-                    Forms\Components\Select::make('matakuliah_id')
-                        ->label('Mata Kuliah')
-                        ->options(Matakuliah::all()->pluck('nama_mk', 'id'))
-                        ->required()
-                        ->reactive()
-                        ->afterStateUpdated(function ($set) {
-                            // Reset kelas saat mata kuliah berubah
-                            $set('kelas_id', null);
-                        }),
-
-                    Forms\Components\Select::make('kelas_id')
-                        ->label('Kelas')
-                        ->options(function (callable $get) {
-                            $matakuliahId = $get('matakuliah_id');
-                            if (!$matakuliahId) {
-                                return [];
+            Forms\Components\Select::make('matakuliah_id')
+                ->label('Mata Kuliah')
+                ->relationship('matakuliah', 'nama_mk') // Relasi dengan kolom 'nama_mk'
+                ->required()
+                ->searchable()
+                ->getOptionLabelFromRecordUsing(function ($record) {
+                    // Menggabungkan nama mata kuliah dengan tahun ajaran untuk ditampilkan
+                    return "{$record->nama_mk} - {$record->tahun_ajaran}";
+                })
+                ->reactive(),
+            
+            Forms\Components\Select::make('kelas_id')
+                ->label('Kelas')
+                ->searchable()
+                ->options(function (callable $get) {
+                    $matakuliahId = $get('matakuliah_id');
+                    if (!$matakuliahId) {
+                        return [];
+                    }
+                    return \App\Models\Kelas::where('matakuliah_id', $matakuliahId)
+                        ->pluck('nama_kelas', 'id');
+                })
+                ->required()
+                ->rules(function (callable $get) {
+                    return [
+                        function (string $attribute, $value, $fail) use ($get) {
+                            // Cek apakah kombinasi duplikat
+                            $exists = \App\Models\Persen::where('matakuliah_id', $get('matakuliah_id'))
+                                ->where('kelas_id', $value)
+                                ->exists();
+            
+                            if ($exists) {
+                                $fail('Kombinasi Mata Kuliah dan Kelas sudah ada.');
                             }
-
-                            return Kelas::where('matakuliah_id', $matakuliahId)
-                                ->pluck('nama_kelas', 'id')
-                                ->toArray();
-                        })
-                        ->required(),
+                        },
+                    ];
+                }),
 
                     Forms\Components\TextInput::make('nama_dosen')
                         ->label('Nama Dosen')

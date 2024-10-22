@@ -14,6 +14,7 @@ use App\Models\Matakuliah;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\FileUpload;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\HasilResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -64,6 +65,11 @@ class HasilResource extends Resource
                 ->label('Kelas')
                 ->sortable()
                 ->searchable(),
+                
+            Tables\Columns\TextColumn::make('matakuliah.tahun_ajaran')
+                ->label('Tahun Ajaran')
+                ->sortable()
+                ->searchable(),    
 
             Tables\Columns\TextColumn::make('absen')
                 ->label('Nilai Absen')
@@ -100,11 +106,29 @@ class HasilResource extends Resource
         ])
         
         ->filters([
-            // Tambahkan filter jika diperlukan
+            SelectFilter::make('matakuliah_id')
+    ->label('Mata Kuliah')
+    ->relationship('matakuliah', 'nama_mk')
+    ->searchable()
+    ->placeholder('Pilih Mata Kuliah')
+    ->getOptionLabelFromRecordUsing(function ($record) {
+        // Menggabungkan nama mata kuliah dengan tahun ajaran untuk ditampilkan
+        return "{$record->nama_mk} - {$record->tahun_ajaran}";
+    }),
+
+
+            SelectFilter::make('kelas_id')
+                ->label('Kelas')
+                ->relationship('kelas', 'nama_kelas')
+                ->searchable()
+                ->placeholder('Pilih Kelas'),
+
+            
+            
         ])
         ->actions([
             Tables\Actions\EditAction::make(),
-            
+            Tables\Actions\DeleteAction::make(),
             
         ])
         ->bulkActions([

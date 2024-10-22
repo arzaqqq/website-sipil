@@ -28,26 +28,35 @@ class SampelJawabanResource extends Resource
             ->schema([
 
                 Forms\Components\Select::make('matakuliah_id')
-                ->label('Mata Kuliah')
-                ->relationship('matakuliah', 'nama_mk')
-                ->required()
-                ->reactive(),
-                
+                    ->label('Mata Kuliah')
+                    ->relationship('matakuliah', 'nama_mk') // Relasi dengan kolom 'nama_mk'
+                    ->required()
+                    ->searchable()
+                    ->getOptionLabelFromRecordUsing(function ($record) {
+                        return "{$record->nama_mk} - {$record->tahun_ajaran}";
+                    })
+                    ->reactive()
+                    ->columnSpanFull()
+                    ->unique(),
+
                 Forms\Components\FileUpload::make('sampel_quiz')
                     ->label('Sampel Quiz')
                     ->directory('sampel')
                     ->preserveFilenames()
                     ->required(),
+                
                 Forms\Components\FileUpload::make('sampel_latihan')
                     ->label('Sampel Latihan')
                     ->directory('sampel')
                     ->preserveFilenames()
                     ->required(),
+                
                 Forms\Components\FileUpload::make('sampel_UTS')
                     ->label('Sampel UTS')
                     ->directory('sampel')
                     ->preserveFilenames()
                     ->required(),
+                
                 Forms\Components\FileUpload::make('sampel_UAS')
                     ->label('Sampel UAS')
                     ->directory('sampel')
@@ -60,45 +69,48 @@ class SampelJawabanResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('matakuliah.nama_mk')
+                    ->label('Mata Kuliah')
+                    ->sortable()
+                    ->searchable()
+                    ->columnSpanFull(),
 
-                Tables\Columns\TextColumn::make('mataKuliah.nama_mk')
-                    ->label('Mata Kuliah'),
-                    
-                TextColumn::make('sampel_quiz')
-                ->label('Sampel Quiz')
-                ->formatStateUsing(fn($state) => $state ? 'Lihat Sampel Quiz' : 'No File')
-                ->extraAttributes(['style' => 'text-align: left;'])
-                ->url(fn($record) => $record->sampel_quiz ? asset('storage/' . $record->sampel_quiz) : null)
-                ->html()
-                ->openUrlInNewTab(),
-            
-            TextColumn::make('sampel_latihan')
-                ->label('Sampel Latihan')
-                ->formatStateUsing(fn($state) => $state ? 'Lihat Sampel Latiahan' : 'No File')
-                ->extraAttributes(['style' => 'text-align: left;'])
-                ->url(fn($record) => $record->sampel_latihan ? asset('storage/' . $record->sampel_latihan) : null)
-                ->html()
-                ->openUrlInNewTab(),
-            
-            TextColumn::make('sampel_UTS')
-                ->label('Sampel UTS')
-                ->formatStateUsing(fn($state) => $state ? 'Lihat Sampel UTS' : 'No File')
-                ->extraAttributes(['style' => 'text-align: left;'])
-                ->url(fn($record) => $record->sampel_UTS ? asset('storage/' . $record->sampel_UTS) : null)
-                ->html()
-                ->openUrlInNewTab(),
-            
-            TextColumn::make('sampel_UAS')
-                ->label('Sampel UAS')
-                ->formatStateUsing(fn($state) => $state ? 'Lihat Sampel UAS' : 'No File')
-                ->extraAttributes(['style' => 'text-align: left;'])
-                ->url(fn($record) => $record->sampel_UAS ? asset('storage/' . $record->sampel_UAS) : null)
-                ->html()
-                ->openUrlInNewTab(),
-            
-            ])
-            ->filters([
-                // Add filters if needed
+                Tables\Columns\TextColumn::make('matakuliah.tahun_ajaran')
+                    ->label('Tahun Ajaran')
+                    ->sortable()
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('sampel_quiz')
+                    ->label('Sampel Quiz')
+                    ->formatStateUsing(fn($state) => $state ? 'Lihat Sampel Quiz' : 'No File')
+                    ->extraAttributes(['style' => 'text-align: left;'])
+                    ->url(fn($record) => $record->sampel_quiz ? asset('storage/' . $record->sampel_quiz) : null)
+                    ->html()
+                    ->openUrlInNewTab(),
+
+                Tables\Columns\TextColumn::make('sampel_latihan')
+                    ->label('Sampel Latihan')
+                    ->formatStateUsing(fn($state) => $state ? 'Lihat Sampel Latihan' : 'No File')
+                    ->extraAttributes(['style' => 'text-align: left;'])
+                    ->url(fn($record) => $record->sampel_latihan ? asset('storage/' . $record->sampel_latihan) : null)
+                    ->html()
+                    ->openUrlInNewTab(),
+
+                Tables\Columns\TextColumn::make('sampel_UTS')
+                    ->label('Sampel UTS')
+                    ->formatStateUsing(fn($state) => $state ? 'Lihat Sampel UTS' : 'No File')
+                    ->extraAttributes(['style' => 'text-align: left;'])
+                    ->url(fn($record) => $record->sampel_UTS ? asset('storage/' . $record->sampel_UTS) : null)
+                    ->html()
+                    ->openUrlInNewTab(),
+
+                Tables\Columns\TextColumn::make('sampel_UAS')
+                    ->label('Sampel UAS')
+                    ->formatStateUsing(fn($state) => $state ? 'Lihat Sampel UAS' : 'No File')
+                    ->extraAttributes(['style' => 'text-align: left;'])
+                    ->url(fn($record) => $record->sampel_UAS ? asset('storage/' . $record->sampel_UAS) : null)
+                    ->html()
+                    ->openUrlInNewTab(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

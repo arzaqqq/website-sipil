@@ -42,6 +42,11 @@ class AverageResource extends Resource
                     ->label('Mata Kuliah')
                     ->sortable()
                     ->searchable(),
+                
+                Tables\Columns\TextColumn::make('matakuliah.tahun_ajaran')
+                    ->label('Tahun Ajaran')
+                    ->sortable()
+                    ->searchable(),    
 
                 TextColumn::make('jumlah_mahasiswa')
                     ->label('Jumlah Mahasiswa')
@@ -83,7 +88,7 @@ class AverageResource extends Resource
                 // Tambahkan filter jika diperlukan
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),

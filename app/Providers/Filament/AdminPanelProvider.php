@@ -31,7 +31,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
-            ->brandName('Website Teknik Sipil')
+            ->brandName('SEP - SIPIL UNIMAL')
             ->colors([
                 'primary' => Color::Blue,
             ])
@@ -47,12 +47,13 @@ class AdminPanelProvider extends PanelProvider
                 // Widgets\FilamentInfoWidget::class,
             ])
             ->navigationGroups([
-                'Setting Website',
                 'Data Akses',
+                'Setting Website',
                 'Perkuliahan',
                 'Penilaian',
                 'Hasil & Evaluasi',
                 'Survey & Tindak lanjut'
+                
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -71,8 +72,10 @@ class AdminPanelProvider extends PanelProvider
             ->plugins([
                 FilamentEditProfilePlugin::make()
                     ->setIcon('heroicon-o-user')
-                    ->shouldShowAvatarForm(),
+                    ->shouldShowAvatarForm()
+                    ->setNavigationGroup('Data Akses'),
             ])
+            
             ->userMenuItems([
                 MenuItem::make()
                     ->label('Edit Profile')

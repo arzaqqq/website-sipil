@@ -17,6 +17,7 @@ return new class extends Migration
             $table->enum('semester', ['Ganjil', 'Genap']);
             $table->string('nama_mk');
             $table->string('file_rps');
+            $table->string('tahun_ajaran');
             $table->timestamps();
         });
     }

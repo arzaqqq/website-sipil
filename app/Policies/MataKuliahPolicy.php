@@ -13,7 +13,7 @@ class MataKuliahPolicy
      */
     public function viewAny(User $user): bool
     {
-      return true;
+       return true;
     }
 
     /**
@@ -21,7 +21,7 @@ class MataKuliahPolicy
      */
     public function view(User $user, MataKuliah $mataKuliah): bool
     {
-      return true;
+       return true;
     }
 
     /**
@@ -29,7 +29,7 @@ class MataKuliahPolicy
      */
     public function create(User $user): bool
     {
-      return true;
+       return true;
     }
 
     /**
@@ -37,7 +37,7 @@ class MataKuliahPolicy
      */
     public function update(User $user, MataKuliah $mataKuliah): bool
     {
-      return true;
+       return true;
     }
 
     /**
@@ -48,9 +48,9 @@ class MataKuliahPolicy
         return $user->role == 'admin';
     }
 
-    public function deleteAny(User $user): bool
+    public function deleteany(User $user): bool
     {
-      return $user->role == 'admin';
+        return $user->role == 'admin';
     }
 
     /**
@@ -58,7 +58,7 @@ class MataKuliahPolicy
      */
     public function restore(User $user, MataKuliah $mataKuliah): bool
     {
-      return true;
+       return true;
     }
 
     /**
@@ -66,6 +66,6 @@ class MataKuliahPolicy
      */
     public function forceDelete(User $user, MataKuliah $mataKuliah): bool
     {
-      return true;
+       return true;
     }
 }

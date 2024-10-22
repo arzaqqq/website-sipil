@@ -28,9 +28,14 @@ class CreateHasil extends CreateRecord
                 Grid::make(3)->schema([
                     Select::make('matakuliah_id')
                         ->label('Mata Kuliah')
-                        ->options(Matakuliah::all()->pluck('nama_mk', 'id'))
+                        ->getOptionLabelFromRecordUsing(function ($record) {
+                            // Menggabungkan nama mata kuliah dengan tahun ajaran untuk ditampilkan
+                            return "{$record->nama_mk} - {$record->tahun_ajaran}";
+                        })
+                        ->relationship('matakuliah', 'nama_mk')
                         ->required()
                         ->reactive()
+                        ->searchable()
                         ->afterStateUpdated(function ($set, $get) {
                             $set('kelas_id', null);
                             $set('nama_dosen', null);

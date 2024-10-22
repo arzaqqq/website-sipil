@@ -26,20 +26,42 @@ class PersenResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('matakuliah_id')
-                    ->label('Mata Kuliah')
-                    ->options(Matakuliah::all()->pluck('nama_mk', 'id'))
-                    ->required()
-                    ->reactive()
-                    ->afterStateUpdated(fn ($set) => $set('kelas_id', null)),
-                
-                Forms\Components\Select::make('kelas_id')
-                    ->label('Kelas')
-                    ->options(function (callable $get) {
-                        $matakuliahId = $get('matakuliah_id');
-                        return $matakuliahId ? Kelas::where('matakuliah_id', $matakuliahId)->pluck('nama_kelas', 'id') : [];
-                    })
-                    ->required()
-                    ->reactive(),
+                ->label('Mata Kuliah')
+                ->relationship('matakuliah', 'nama_mk') // Relasi dengan kolom 'nama_mk'
+                ->required()
+                ->searchable()
+                ->getOptionLabelFromRecordUsing(function ($record) {
+                    // Menggabungkan nama mata kuliah dengan tahun ajaran untuk ditampilkan
+                    return "{$record->nama_mk} - {$record->tahun_ajaran}";
+                })
+                ->reactive(),
+            
+            Forms\Components\Select::make('kelas_id')
+                ->label('Kelas')
+                ->searchable()
+                ->options(function (callable $get) {
+                    $matakuliahId = $get('matakuliah_id');
+                    if (!$matakuliahId) {
+                        return [];
+                    }
+                    return \App\Models\Kelas::where('matakuliah_id', $matakuliahId)
+                        ->pluck('nama_kelas', 'id');
+                })
+                ->required()
+                ->rules(function (callable $get) {
+                    return [
+                        function (string $attribute, $value, $fail) use ($get) {
+                            // Cek apakah kombinasi duplikat
+                            $exists = \App\Models\Soal::where('matakuliah_id', $get('matakuliah_id'))
+                                ->where('kelas_id', $value)
+                                ->exists();
+            
+                            if ($exists) {
+                                $fail('Kombinasi Mata Kuliah dan Kelas sudah ada.');
+                            }
+                        },
+                    ];
+                }),
 
                 Forms\Components\TextInput::make('nama_dosen')
                     ->label('Nama Dosen')
@@ -104,7 +126,12 @@ class PersenResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('matakuliah.nama_mk')->label('Mata Kuliah'),
+               
                 Tables\Columns\TextColumn::make('kelas.nama_kelas')->label('Kelas'),
+                 Tables\Columns\TextColumn::make('matakuliah.tahun_ajaran')
+                ->label('Tahun Ajaran')
+                ->sortable()
+                ->searchable(),
                 Tables\Columns\TextColumn::make('nama_dosen')->label('Nama Dosen'),
                 Tables\Columns\TextColumn::make('persen_absen')->label('Persen Absen (%)'),
                 Tables\Columns\TextColumn::make('persen_latihan')->label('Persen Latihan (%)'),

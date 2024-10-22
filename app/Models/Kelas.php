@@ -13,7 +13,7 @@ class Kelas extends Model
 
     public function matakuliah()
     {
-        return $this->belongsTo(Matakuliah::class);
+        return $this->belongsTo(Matakuliah::class, 'matakuliah_id');
     }
 
     public function soals()
