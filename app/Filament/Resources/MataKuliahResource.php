@@ -40,34 +40,34 @@ class MatakuliahResource extends Resource
                     ->columnSpanFull(),
                 Select::make('semester')
                     ->options([
-                       'Ganjil' => 'Ganjil',
-                       'Genap' => 'Genap',
+                        'Ganjil' => 'Ganjil',
+                        'Genap' => 'Genap',
                     ])
-                ->label('Semester')
-                ->required()
-                ->columnSpanFull(),    
+                    ->label('Semester')
+                    ->required()
+                    ->columnSpanFull(),
                 FileUpload::make('file_rps')
                     ->required()
                     ->label('File RPS')
                     ->columnSpanFull()
                     ->directory('RPS')
-                    ->preserveFilenames() ,
+                    ->preserveFilenames(),
                 Repeater::make('materis')
                     ->relationship('materis')
                     ->schema([
                         Select::make('pertemuan')
-                         ->options(array_combine(range(1, 16), range(1, 16)))
-                          ->required()
-                          ->label('Pertemuan'),
+                            ->options(array_combine(range(1, 16), range(1, 16)))
+                            ->required()
+                            ->label('Pertemuan'),
                         TextInput::make('judul_materi')->required(),
                         FileUpload::make('file_materi')->required()
-                          ->directory('Materi')
-                          ->preserveFilenames() ,
+                            ->directory('Materi')
+                            ->preserveFilenames(),
                     ])
                     ->minItems(1)
                     ->maxItems(16)
                     ->label('Materi Pertemuan')
-                  
+
             ]);
     }
 
@@ -90,35 +90,32 @@ class MatakuliahResource extends Resource
                     ->searchable(),
                 TextColumn::make('semester')
                     ->label('Semester')
-                    ->formatStateUsing(fn ($state) => ucfirst($state)),    
+                    ->formatStateUsing(fn($state) => ucfirst($state)),
                 TextColumn::make('file_rps')
-                ->label('File RPS')
-                ->formatStateUsing(fn ($state) => $state ? '<a href="' . asset('storage/' . $state) . '" target="_blank">Download</a>' : 'No File')
-                ->html()    
-                ->extraAttributes(['onclick' => 'event.stopPropagation();']),
-                
+                    ->label('File RPS')
+                    ->formatStateUsing(fn($state) => $state ? '<a href="' . asset('storage/' . $state) . '" target="_blank">Download</a>' : 'No File')
+                    ->html()
+                    ->extraAttributes(['onclick' => 'event.stopPropagation();']),
+
                 TextColumn::make('materis')
                     ->label('Materi')
                     ->formatStateUsing(function ($record) {
-                      return $record->materis()->orderBy('pertemuan', 'asc')->get()->map(function ($materi) {
-                      return 'Pertemuan ' . $materi->pertemuan . ': <a href="' . asset('storage/' . $materi->file_materi) . '" target="_blank">' . $materi->judul_materi . '</a>';
-                 })->implode('<br>');
-                 })
-                     ->html()
-                     ->extraAttributes(['onclick' => 'event.stopPropagation();']),
+                        return $record->materis()->orderBy('pertemuan', 'asc')->get()->map(function ($materi) {
+                            return 'Pertemuan ' . $materi->pertemuan . ': <a href="' . asset('storage/' . $materi->file_materi) . '" target="_blank">' . $materi->judul_materi . '</a>';
+                        })->implode('<br>');
+                    })
+                    ->html()
+                    ->extraAttributes(['onclick' => 'event.stopPropagation();']),
             ])
-            ->filters([
-                
-            ])
+            ->filters([])
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
-                
+
             ]);
-            
     }
 
     public static function getRelations(): array

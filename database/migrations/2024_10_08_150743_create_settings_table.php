@@ -29,6 +29,13 @@ return new class extends Migration
         ]);
 
         setting::create([
+            'key' => '_nama_website',
+            'label' => 'Nama Web',
+            'value' => 'SEP - SIPIL UNIMAL',
+            'type' => 'text',
+        ]);
+
+        setting::create([
             'key' => '_subjudul1',
             'label' => 'Sub Judul',
             'value' => 'Sejarah Prodi',

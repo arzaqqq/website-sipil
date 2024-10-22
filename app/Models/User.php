@@ -59,4 +59,9 @@ class User extends Authenticatable implements HasAvatar
     // {
     //     return $this->hasMany(matakuliah::class);
     // }
+
+    public function surveys()
+    {
+        return $this->hasMany(Survey::class);
+    }
 }

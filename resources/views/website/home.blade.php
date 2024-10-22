@@ -1,6 +1,7 @@
 @php
   $foto_bg = get_section_data('Gambar Background');
   $foto_kelulusan = get_section_data('Gambar Profil Kelulusan');
+  $nama_website = get_setting_value('_nama_website');
   $judul_web = get_setting_value('_site_name');
   $subjudul1 = get_setting_value('_subjudul1');
   $subjudul2 = get_setting_value('_subjudul2');
@@ -26,7 +27,8 @@ Beranda
   <div class="hero-overlay bg-opacity-60"></div>
   <div class="hero-content text-neutral-content text-center">
     <div class="max-w-md">
-      <h1 class="mb-5 text-5xl font-bold" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">{{$judul_web}}</h1>
+      <h1 class="mb-3 text-4xl font-bold" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">{{$nama_website}}</h1>
+      <h3 class="mb-5 text-3xl font-bold" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">{{$judul_web}}</h3>
       <a href="https://sipil.unimal.ac.id/" target="_blank" class="btn btn-success text-white hover:bg-white hover:text-black" data-aos="fade-down" data-aos-duration="2000" data-aos-delay="200">Cek Website</a>
     </div>
   </div>

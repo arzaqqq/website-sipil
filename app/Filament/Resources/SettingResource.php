@@ -20,7 +20,7 @@ class SettingResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-cog';
 
     protected static ?string $navigationGroup = 'Setting Website';
-    
+
     protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
@@ -36,7 +36,7 @@ class SettingResource extends Resource
                 } elseif ($record->type === 'longtext') {
                     return [
                         Forms\Components\TextInput::make('label')->disabled()->columnSpanFull(),
-                        Forms\Components\RichEditor::make('value')->required(),
+                        Forms\Components\RichEditor::make('value')->required()->columnSpanFull(),
                     ];
                 } else {
                     // Default fallback jika type tidak sesuai

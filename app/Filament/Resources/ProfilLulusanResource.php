@@ -2,16 +2,18 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ProfilLulusanResource\Pages;
-use App\Filament\Resources\ProfilLulusanResource\RelationManagers;
-use App\Models\ProfilLulusan;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use App\Models\ProfilLulusan;
+use Filament\Resources\Resource;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\RichEditor;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\ProfilLulusanResource\Pages;
+use App\Filament\Resources\ProfilLulusanResource\RelationManagers;
 
 class ProfilLulusanResource extends Resource
 {
@@ -27,8 +29,12 @@ class ProfilLulusanResource extends Resource
             ->schema([
                 // Forms\Components\TextInput::make('header_profil'),
                 // Forms\Components\TextInput::make('header_deskripsi'),
-                Forms\Components\TextInput::make('nama_profil'),
-                Forms\Components\RichEditor::make('deskripsi_profil'),
+                TextInput::make('nama_profil')
+                    ->required()
+                    ->columnSpanFull(),
+                RichEditor::make('deskripsi_profil')
+                    ->required()
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -68,5 +74,10 @@ class ProfilLulusanResource extends Resource
             'create' => Pages\CreateProfilLulusan::route('/create'),
             'edit' => Pages\EditProfilLulusan::route('/{record}/edit'),
         ];
+    }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
     }
 }

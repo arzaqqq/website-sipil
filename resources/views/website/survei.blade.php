@@ -96,9 +96,14 @@ Survei
                         </div>
             
                         <div class="sm:col-span-4">
-                            <label for="nama_dosen" class="block text-sm font-medium leading-6 text-gray-900">Dosen</label>
+                            <label for="user_id" class="block text-sm font-medium leading-6 text-gray-900">Nama Dosen</label>
                             <div class="mt-2">
-                                <input type="text" name="nama_dosen" placeholder="Contoh: John Doe., ST., MT." id="nama_dosen" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
+                                <select id="user_id" name="user_id" autocomplete="country-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6" required>
+                                    <option value="">-- Pilih Dosen --</option>
+                                    @foreach(get_dosens() as $user)
+                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -178,26 +183,58 @@ Survei
         prevBtn.forEach(btn => btn.style.display = currentStep === 0 ? "none" : "inline-block");
     }
 
-    nextBtn.forEach(button => {
-    button.addEventListener("click", () => {
-        const currentStepFields = steps[currentStep].querySelectorAll("input[required], select[required]");
-        let allValid = true;
+        nextBtn.forEach(button => {
+        button.addEventListener("click", () => {
+            const currentStepFields = steps[currentStep].querySelectorAll("input[required], select[required]");
+            let allValid = true;
+            let firstInvalidField = null;
 
-        currentStepFields.forEach(field => {
-            if (!field.checkValidity()) {
-                allValid = false;
-                field.reportValidity(); // Menampilkan pesan validasi
+            currentStepFields.forEach(field => {
+                // Validasi email secara khusus jika input email
+                if (field.type === "email") {
+                    const emailPattern = /^[a-zA-Z0-9._%+-]+@mhs\.unimal\.ac\.id$/;
+                    if (!emailPattern.test(field.value)) {
+                        allValid = false;
+                        field.setCustomValidity("Email harus menggunakan @mhs.unimal.ac.id");
+                        field.reportValidity(); // Menampilkan pesan validasi
+                        field.classList.add("input-invalid"); // Tambah class jika invalid
+                        if (!firstInvalidField) {
+                            firstInvalidField = field; // Simpan input pertama yang tidak valid
+                        }
+                    } else {
+                        field.setCustomValidity(""); // Reset validasi jika benar
+                        field.classList.remove("input-invalid"); // Hapus class jika valid
+                    }
+                }
+
+                // Validasi form biasa
+                if (!field.checkValidity()) {
+                    allValid = false;
+                    field.reportValidity(); // Menampilkan pesan validasi
+                    field.classList.add("input-invalid"); // Tambah class jika invalid
+                    if (!firstInvalidField) {
+                        firstInvalidField = field; // Simpan input pertama yang tidak valid
+                    }
+                } else {
+                    field.classList.remove("input-invalid"); // Hapus class jika valid
+                }
+            });
+
+            // Jika ada input yang tidak valid, fokuskan ke input pertama yang tidak valid
+            if (firstInvalidField) {
+                firstInvalidField.focus();
+            }
+
+            // Jika semua valid, lanjut ke langkah berikutnya
+            if (allValid && currentStep < steps.length - 1) {
+                steps[currentStep].style.display = "none";
+                currentStep++;
+                steps[currentStep].style.display = "block";
+                updateButtons();
             }
         });
-
-        if (allValid && currentStep < steps.length - 1) {
-            steps[currentStep].style.display = "none";
-            currentStep++;
-            steps[currentStep].style.display = "block";
-            updateButtons();
-        }
     });
-});
+
 
     prevBtn.forEach(button => {
         button.addEventListener("click", () => {

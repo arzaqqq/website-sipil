@@ -21,6 +21,11 @@ class Survey extends Model
         return $this->belongsTo(Kelas::class);
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function ratings()
     {
         return $this->hasMany(SurveyRating::class);

@@ -15,10 +15,10 @@ class SurveyController extends Controller
         $request->validate([
             'nama' => 'required|string',
             'nim' => 'required|string',
-            'email' => 'required|email',
+            'email' => 'required|email|regex:/^[a-zA-Z0-9._%+-]+@mhs\.unimal\.ac\.id$/',
             'matakuliah_id' => 'required|exists:matakuliahs,id',
             'kelas_id' => 'required|exists:kelas,id',
-            'nama_dosen' => 'required|string',
+            'user_id' => 'required|exists:users,id',
             'ratings.*.rating' => 'required|integer|between:1,5',
         ]);
 

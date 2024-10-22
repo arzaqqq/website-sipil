@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use Filament\Forms;
+use App\Models\User;
 use Filament\Tables;
 use App\Models\Survey;
 use Filament\Forms\Form;
@@ -36,7 +37,10 @@ class SurveyResource extends Resource
             Forms\Components\Select::make('kelas_id')
                 ->relationship('kelas', 'nama_kelas')
                 ->required(),
-            Forms\Components\TextInput::make('nama_dosen')->required(),
+            Forms\Components\Select::make('user_id')
+                ->relationship('user', 'name')
+                ->required(),
+            // Forms\Components\TextInput::make('nama_dosen')->required(),
         ];
 
         foreach ($questions as $question) {
@@ -60,7 +64,7 @@ class SurveyResource extends Resource
         $questions = SurveyQuestion::all();
 
         return $table
-            ->query(Survey::with('ratings.question')) // Eager load ratings dan questions
+            ->query(Survey::with('ratings.question', 'user', 'matakuliah', 'kelas')) // Eager load ratings dan questions
             ->columns(array_merge(
                 [
                     Tables\Columns\TextColumn::make('nama')->label('Nama'),
@@ -68,7 +72,7 @@ class SurveyResource extends Resource
                     Tables\Columns\TextColumn::make('email')->label('Email'),
                     Tables\Columns\TextColumn::make('matakuliah.nama_mk')->label('Matakuliah'),
                     Tables\Columns\TextColumn::make('kelas.nama_kelas')->label('Kelas'),
-                    Tables\Columns\TextColumn::make('nama_dosen')->label('Dosen'),
+                    Tables\Columns\TextColumn::make('user.name')->label('Dosen'),
                 ],
                 // Tambahkan kolom untuk setiap pertanyaan
                 $questions->map(function ($question) {
@@ -87,10 +91,10 @@ class SurveyResource extends Resource
                     ->relationship('matakuliah', 'nama_mk')
                     ->multiple(), // Jika ingin filter dengan multiple selection
                 // Filter berdasarkan Nama Dosen
-                SelectFilter::make('nama_dosen')
+                SelectFilter::make('user_id')
                     ->label('Nama Dosen')
                     ->options(
-                        Survey::distinct()->pluck('nama_dosen')->mapWithKeys(fn($name) => [$name => $name])
+                        User::whereHas('surveys')->pluck('name', 'id')
                     )
                     ->placeholder('Pilih nama dosen...')
                     ->multiple(),

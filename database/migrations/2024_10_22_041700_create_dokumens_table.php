@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tindak_lanjuts', function (Blueprint $table) {
+        Schema::create('dokumens', function (Blueprint $table) {
             $table->id();
-            $table->string('semester');
-            $table->string('file_tindak_lanjut');
-            $table->string('tahun_ajaran');
+            $table->string('jenis_dokumen');
+            $table->string('file_dokumen');
+            $table->string('tahun');
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tindak_lanjuts');
+        Schema::dropIfExists('dokumens');
     }
 };

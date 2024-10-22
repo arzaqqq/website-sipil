@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use App\Models\Kelas;
 use App\Models\Survey;
 use App\Models\setting;
@@ -65,6 +66,11 @@ if (!function_exists('get_kelas_by_matakuliah')) {
     {
         return Kelas::where('matakuliah_id', $matakuliahId)->get();
     }
+}
+
+function get_dosens()
+{
+    return User::where('role', 'dosen')->get();
 }
 
 function store_survey($surveyData, $ratings)
