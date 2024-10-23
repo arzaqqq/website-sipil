@@ -3,7 +3,7 @@
 use App\Models\User;
 use App\Models\Kelas;
 use App\Models\Survey;
-use App\Models\setting;
+use App\Models\Setting;
 use App\Models\LinkOption;
 use App\Models\Matakuliah;
 use App\Models\SettingFoto;
