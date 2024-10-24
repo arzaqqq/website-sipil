@@ -15,14 +15,14 @@ class Soal extends Model
         'quiz' => 'array', // Cast quiz as an array
         'latihan' => 'array', // Cast latihan as an array
     ];
-    
+
     public function kelas()
     {
         return $this->belongsTo(Kelas::class);
     }
 
-    public function mataKuliah()
+    public function matakuliah()
     {
-        return $this->belongsTo(Matakuliah::class ,'matakuliah_id'); 
+        return $this->belongsTo(Matakuliah::class, 'matakuliah_id');
     }
 }

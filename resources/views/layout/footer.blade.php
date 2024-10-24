@@ -123,7 +123,7 @@
 <footer class="footer bg-base-600 text-base-content border-base-300 border-t px-10 py-4" >
   <aside class="grid-flow-col items-center">
     <img src="{{url('img/logo1.png')}}" alt="logo" class="w-14 h-14">
-    <div class="font-medium">
+    <div class="font-medium text-slate-800">
       {!! $alamat !!}
     </div>
   </aside>

@@ -74,7 +74,7 @@ Beranda
               @foreach (get_profile()->take(5) as $profile)
               <tr class="hover:bg-green-200 text-slate-8">
                 <th>{{ $no++ }}</th>
-                <td>{{ $profile->nama_profil}}</td>
+                <td class="items-start">{{ $profile->nama_profil}}</td>
                 <td>{!! $profile->deskripsi_profil !!}</td>
               </tr>
               @endforeach
