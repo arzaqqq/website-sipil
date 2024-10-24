@@ -23,7 +23,7 @@ function get_section_data($key)
 
 function get_setting_value($key)
 {
-    $data = setting::where('key', $key)->first();
+    $data = Setting::where('key', $key)->first();
     if (isset($data)) {
         return $data->value;
     } else {
