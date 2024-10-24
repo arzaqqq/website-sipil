@@ -24,7 +24,7 @@ Survei
     </div>    
 
     <div class="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg"> <!-- Tambahkan max-w-4xl untuk batas lebar -->
-        <form id="surveyForm" action="{{ route('survey.store') }}" method="POST">
+        <form id="surveyForm" action="{{ route('survey.store') }}" method="POST" class="bg-white p-6 rounded-lg shadow-lg">
                 @if (session('success'))
                 <div id="success-alert" class="text-sm p-2 bg-green-100 text-green-700 rounded">
                 {{ session('success') }}

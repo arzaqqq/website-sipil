@@ -12,13 +12,13 @@ class FileHasil extends Model
     protected $guarded = [];
 
 
-  public function kelas()
+    public function kelas()
     {
         return $this->belongsTo(Kelas::class);
     }
 
-    public function mataKuliah()
+    public function matakuliah()
     {
-        return $this->belongsTo(MataKuliah::class ,'matakuliah_id'); 
+        return $this->belongsTo(Matakuliah::class, 'matakuliah_id');
     }
 }
