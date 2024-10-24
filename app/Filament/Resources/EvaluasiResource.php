@@ -30,7 +30,6 @@ class EvaluasiResource extends Resource
                     ->label('Mata Kuliah')
                     ->relationship('matakuliah', 'nama_mk')
                     ->getOptionLabelFromRecordUsing(function ($record) {
-                        // Menggabungkan nama mata kuliah dengan tahun ajaran untuk ditampilkan
                         return "{$record->nama_mk} - {$record->tahun_ajaran}";
                     })
                     ->searchable()
@@ -71,7 +70,6 @@ Forms\Components\Select::make('soal')
     $soal = $get('soal');
 
     if ($matakuliahId && $soal) {
-        // Mengambil rata-rata dari model Hasil
         $averageData = \App\Models\Hasil::calculateAverageScoresByMatakuliah()
             ->firstWhere('matakuliah_id', $matakuliahId);
 

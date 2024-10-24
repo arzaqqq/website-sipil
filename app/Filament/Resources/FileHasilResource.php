@@ -96,6 +96,7 @@ class FileHasilResource extends Resource
 
                 TextColumn::make('file_hasil')
                     ->label('File Hasil Nilai')
+                    ->directory('file hasil')
                     ->formatStateUsing(function ($state) {
                         // Ubah tampilannya menjadi teks yang diinginkan
                         return $state ? 'File Hasil Penilaian' : 'Tidak Ada File';

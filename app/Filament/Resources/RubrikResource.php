@@ -112,6 +112,7 @@ class RubrikResource extends Resource
 
                 Tables\Columns\TextColumn::make('file_rubrik_quiz')
                     ->label('file rubrik quiz')
+                    ->directory('Rubrik Quiz')
                     ->formatStateUsing(function ($record) {
                         // Check if the `quiz` field is an array of file paths
                         if (is_array($record->file_rubrik_quiz)) {
@@ -138,6 +139,7 @@ class RubrikResource extends Resource
 
                 Tables\Columns\TextColumn::make('file_rubrik_latihan')
                     ->label('file rubrik latihan')
+                    ->directory('Rubrik Latiahan')
                     ->formatStateUsing(function ($record) {
                         // Check if the `latihan` field is an array of file paths
                         if (is_array($record->file_rubrik_latihan)) {
@@ -166,6 +168,7 @@ class RubrikResource extends Resource
 
                 Tables\Columns\TextColumn::make('file_rubrik_uts')
                     ->label('File Rubrik UTS')
+                    ->directory('Rubrik UTS')
                     ->formatStateUsing(fn($state) => $state ? "<a href='" . asset('storage/' . $state) . "' target='_blank'>Lihat File</a>" : 'No File')
                     ->html()
                     ->extraAttributes(['style' => 'text-align: left;'])
@@ -173,6 +176,7 @@ class RubrikResource extends Resource
 
                 Tables\Columns\TextColumn::make('file_rubrik_uas')
                     ->label('File Rubrik UAS')
+                    ->directory('Rubrik UAS')
                     ->formatStateUsing(fn($state) => $state ? "<a href='" . asset('storage/' . $state) . "' target='_blank'>Lihat File</a>" : 'No File')
                     ->html()
                     ->extraAttributes(['style' => 'text-align: left;'])

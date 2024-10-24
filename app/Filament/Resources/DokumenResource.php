@@ -35,6 +35,7 @@ class DokumenResource extends Resource
                         'SK' => 'SK',
                         'SPMI' => 'SPMI',
                         'AMI' => 'AMI',
+                        'Panduan Website' => 'Panduan Website',
                     ])
                     ->label('Jenis Dokumen')
                     ->required()
@@ -90,6 +91,7 @@ class DokumenResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
