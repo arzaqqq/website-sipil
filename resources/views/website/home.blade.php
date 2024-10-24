@@ -41,7 +41,7 @@ Beranda
       <div class="w-24 h-1 bg-green-600 ms-12 mb-8 mt-4 " data-aos="fade-right" data-aos-duration="1000" data-aos-delay="200"></div>
       <h1 class="text-3xl font-bold ms-4 text-slate-800" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">{{ $subjudul1 }}</h1>
     </div>
-    <div class="font-normal ms-12 mb-2 leading-relaxed text-slate-8" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">{!! ($narasi1) !!}</div> 
+    <div class="font-normal ms-12 mb-2 leading-relaxed text-slate-8 text-slate-800" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">{!! ($narasi1) !!}</div> 
   </div>
   {{-- Akhir Narasi --}}
 
@@ -49,14 +49,14 @@ Beranda
   <div class="container mx-auto mt-8">
     <div class="flex flex-row-reverse">
       <div class="w-24 h-1 bg-green-600 me-12 mb-4 mt-4 " data-aos="fade-right" data-aos-duration="1000" data-aos-delay="200"></div>
-      <h1 class="text-3xl font-bold me-4" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">{{ $subjudul2 }}</h1>
+      <h1 class="text-3xl font-bold me-4 text-slate-800" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">{{ $subjudul2 }}</h1>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
       <img
       src="{{Storage::url($foto_kelulusan->foto)}}"
       alt="Shoes" class="ms-12 w-10/12 rounded-lg" data-aos="flip-left" data-aos-duration="1000" data-aos-delay="200"/>
       <div class="flex flex-col">
-        <div class="font-normal leading-relaxed me-2 mb-4 text-slate-8" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">{!! $narasi2 !!}</div>
+        <div class="font-normal leading-relaxed me-2 mb-4 text-slate-800" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">{!! $narasi2 !!}</div>
         <div class="overflow-x-auto md:mt-0">
           <table class="table table-responsive table-auto" data-aos="fade-down" data-aos-duration="1000" data-aos-delay="200">
             <!-- head -->
