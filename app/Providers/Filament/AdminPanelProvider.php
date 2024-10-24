@@ -8,6 +8,7 @@ use Filament\Widgets;
 use Filament\PanelProvider;
 use Filament\Navigation\MenuItem;
 use Filament\Support\Colors\Color;
+use Filament\View\PanelsRenderHook;
 use Filament\Http\Middleware\Authenticate;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -75,6 +76,11 @@ class AdminPanelProvider extends PanelProvider
                     ->shouldShowAvatarForm()
                     ->setNavigationGroup('Data Akses'),
             ])
+
+            ->renderHook(
+                PanelsRenderHook::AUTH_LOGIN_FORM_AFTER, 
+                fn() => view("custom.login"), 
+            )
             
             ->userMenuItems([
                 MenuItem::make()
@@ -83,5 +89,6 @@ class AdminPanelProvider extends PanelProvider
                     ->icon('heroicon-m-user-circle')
 
             ]);
+
     }
 }
