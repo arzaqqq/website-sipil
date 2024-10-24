@@ -19,3 +19,10 @@ Route::get('/surveys/chart-data', [SurveyController::class, 'getChartData']);
 Route::get('/kelas/{matakuliahId}', function ($matakuliahId) {
     return Kelas::where('matakuliah_id', $matakuliahId)->get();
 });
+
+Route::get('/storage-link',function(){
+    $targetFolder = storage_path('app/public');
+    $linkFolder = $_SERVER['DOCUMENT_ROOT'] . '/storage'; 
+    symlink($targetFolder, $linkFolder);
+    
+});

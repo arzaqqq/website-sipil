@@ -50,7 +50,7 @@ class MatakuliahResource extends Resource
                     ->required()
                     ->label('File RPS')
                     ->columnSpanFull()
-                    ->directory('RPS')
+                    ->directory('File RPS')
                     ->preserveFilenames(),
                 TextInput::make('tahun_ajaran')
                     ->required()
@@ -65,7 +65,7 @@ class MatakuliahResource extends Resource
                             ->label('Pertemuan'),
                         TextInput::make('judul_materi')->required(),
                         FileUpload::make('file_materi')->required()
-                            ->directory('Materi')
+                            ->directory('Materi Matakuliah')
                             ->preserveFilenames(),
                     ])
                     ->minItems(1)

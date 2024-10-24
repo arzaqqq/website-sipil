@@ -74,13 +74,13 @@ class KelasResource extends Resource
                 Forms\Components\FileUpload::make('file_template')
                     ->label('File Template')
                     ->required()
-                    ->directory('template_kelas')
+                    ->directory('file template kelas')
                     ->preserveFilenames(),
 
                 Forms\Components\FileUpload::make('file_kelas')
                     ->label('File Kontak')
                     ->required()
-                    ->directory('kelas')
+                    ->directory('file kontark kelas')
                     ->preserveFilenames(),
             ])
             ->columns(2); // Opsional, untuk mengatur layout kolom

@@ -23,7 +23,7 @@ class Rubrik extends Model
 
     public function mataKuliah()
     {
-        return $this->belongsTo(MataKuliah::class ,'matakuliah_id'); 
+        return $this->belongsTo(Matakuliah::class ,'matakuliah_id'); 
     }
 
 
